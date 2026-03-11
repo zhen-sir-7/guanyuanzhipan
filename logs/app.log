@@ -1,0 +1,120 @@
+2026-03-03 16:49:10,561 - run - INFO - User:anonymous GET / - Data:{} - Response:200 OK
+2026-03-03 16:49:20,407 - run - INFO - User:anonymous GET /register.html - Data:{} - Response:200 OK
+2026-03-03 16:49:30,350 - run - INFO - User:anonymous GET /index.html - Data:{} - Response:200 OK
+2026-03-03 16:49:31,704 - run - INFO - User:anonymous GET /favicon.ico - Data:{} - Response:404 NOT FOUND
+2026-03-03 16:49:36,767 - run - INFO - User:anonymous GET /register.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 16:49:44,467 - run - INFO - User:anonymous GET /index.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 16:50:01,212 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'user', 'password': '***', 'remember': False} - Response:200 OK
+2026-03-03 16:50:01,245 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:200 OK
+2026-03-03 16:50:01,271 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 16:50:08,299 - run - INFO - User:anonymous GET /user/rvc_calculator.html - Data:{} - Response:200 OK
+2026-03-03 16:50:08,343 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 16:50:08,384 - run - INFO - User:2 POST /api/user/product_list - Data:{} - Response:200 OK
+2026-03-03 16:50:12,789 - run - INFO - User:anonymous GET /user/product_manage.html - Data:{} - Response:200 OK
+2026-03-03 16:50:12,806 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 16:50:52,210 - run - INFO - User:anonymous GET /user/product_manage.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 16:50:52,234 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 16:55:34,933 - run - INFO - User:anonymous GET / - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 16:55:58,858 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'user', 'password': '***', 'remember': False} - Response:200 OK
+2026-03-03 16:55:58,885 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 16:55:58,892 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 16:56:01,593 - run - INFO - User:anonymous GET /user/product_manage.html - Data:{} - Response:200 OK
+2026-03-03 16:56:01,614 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 16:56:22,680 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 10} - Response:200 OK
+2026-03-03 17:01:25,670 - run - INFO - User:anonymous GET / - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 17:01:58,640 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'admin', 'password': '***', 'remember': False} - Response:200 OK
+2026-03-03 17:01:58,688 - run - INFO - User:anonymous GET /admin/rule_maintain.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 17:01:58,713 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 17:33:35,926 - run - INFO - User:anonymous GET / - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 17:34:11,092 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'admin', 'password': '***', 'remember': False} - Response:200 OK
+2026-03-03 17:34:11,120 - run - INFO - User:anonymous GET /admin/rule_maintain.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 17:34:11,126 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 17:34:14,985 - run - INFO - User:anonymous GET /admin/rule_maintain.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 17:34:15,002 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 19:41:42,319 - run - INFO - User:anonymous GET / - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 19:41:46,518 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'user', 'password': '***', 'remember': False} - Response:200 OK
+2026-03-03 19:41:46,552 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 19:41:46,569 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 19:41:51,225 - run - INFO - User:anonymous GET /user/product_manage.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 19:41:51,245 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 19:41:51,288 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 10} - Response:200 OK
+2026-03-03 19:41:54,290 - run - INFO - User:anonymous GET /index.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 19:42:07,268 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'admin', 'password': '***', 'remember': False} - Response:200 OK
+2026-03-03 19:42:07,300 - run - INFO - User:anonymous GET /admin/rule_maintain.html - Data:{} - Response:404 NOT FOUND
+2026-03-03 19:43:59,035 - run - INFO - User:anonymous GET /admin/rule_maintain.html - Data:{} - Response:302 FOUND
+2026-03-03 19:43:59,145 - run - INFO - User:anonymous GET /admin/rule_manage.html - Data:{} - Response:200 OK
+2026-03-03 19:43:59,178 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 19:44:00,745 - run - INFO - User:1 POST /api/admin/rule_query - Data:{'hs_code': '', 'rule_name': ''} - Response:200 OK
+2026-03-03 19:44:03,427 - run - INFO - User:anonymous GET /admin/data_visual.html - Data:{} - Response:200 OK
+2026-03-03 19:44:03,470 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 19:44:03,470 - run - INFO - User:anonymous GET /static/js/echarts.min.js - Data:{} - Response:200 OK
+2026-03-03 19:44:03,534 - run - INFO - User:1 POST /api/admin/get_visual_data - Data:{} - Response:200 OK
+2026-03-03 19:44:05,783 - run - INFO - User:anonymous GET /admin/rule_manage.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 19:44:05,804 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 19:44:05,837 - run - INFO - User:1 POST /api/admin/rule_query - Data:{'hs_code': '', 'rule_name': ''} - Response:200 OK
+2026-03-03 21:56:47,252 - run - INFO - User:anonymous GET / - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 21:57:08,712 - run - INFO - User:anonymous GET /favicon.ico - Data:{} - Response:404 NOT FOUND
+2026-03-03 21:57:11,301 - run - INFO - User:anonymous GET /.well-known/appspecific/com.chrome.devtools.json - Data:{} - Response:404 NOT FOUND
+2026-03-03 21:58:04,069 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'user', 'password': '***', 'remember': False} - Response:200 OK
+2026-03-03 21:58:04,093 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 21:58:04,121 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 21:58:44,213 - run - INFO - User:anonymous GET /user/product_manage.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 21:58:44,239 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 21:58:45,444 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 10} - Response:200 OK
+2026-03-03 22:01:38,214 - run - INFO - User:2 POST /api/user/product_add - Data:{'product_name': '产品A', 'hs_code': '300290', 'origin_country': '越南', 'fob_price': 12000, 'direct_labor_cost': None, 'direct_operating_cost': None, 'profit': 2000.01, 'other_cost': None, 'specific_process': None, 'materials': [{'material_name': '原料A', 'hs_code': '300290', 'fob_value': 9000, 'origin_country': '中国'}, {'material_name': '原料B', 'hs_code': '300291', 'fob_value': 100, 'origin_country': '越南'}]} - Response:200 OK
+2026-03-03 22:01:38,233 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 10} - Response:200 OK
+2026-03-03 22:02:15,919 - run - INFO - User:anonymous GET /user/rvc_calculator.html - Data:{} - Response:200 OK
+2026-03-03 22:02:15,939 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:02:16,062 - run - INFO - User:2 POST /api/user/product_list - Data:{} - Response:200 OK
+2026-03-03 22:02:20,695 - run - INFO - User:anonymous GET /user/product_manage.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:02:20,718 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:02:20,752 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 10} - Response:200 OK
+2026-03-03 22:02:24,815 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 10} - Response:200 OK
+2026-03-03 22:02:27,095 - run - INFO - User:anonymous GET /user/rvc_calculator.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:02:27,117 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:02:27,147 - run - INFO - User:2 POST /api/user/product_list - Data:{} - Response:200 OK
+2026-03-03 22:02:33,530 - run - INFO - User:anonymous GET /user/origin_judge.html - Data:{} - Response:200 OK
+2026-03-03 22:02:33,551 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:02:33,585 - run - INFO - User:2 POST /api/user/product_list - Data:{} - Response:200 OK
+2026-03-03 22:04:54,690 - run - INFO - User:anonymous GET /user/origin_judge.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:04:54,711 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:04:54,748 - run - INFO - User:2 POST /api/user/product_list - Data:{} - Response:200 OK
+2026-03-03 22:11:31,658 - run - INFO - User:anonymous GET /user/origin_judge.html - Data:{} - Response:200 OK
+2026-03-03 22:11:31,672 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:11:31,785 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 1000} - Response:200 OK
+2026-03-03 22:11:35,086 - run - INFO - User:2 POST /api/user/origin_judge - Data:{'product_id': '1', 'rule_name': 'RCEP'} - Response:200 OK
+2026-03-03 22:12:09,400 - run - INFO - User:anonymous GET /index.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:12:22,216 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'admin', 'password': '***', 'remember': False} - Response:200 OK
+2026-03-03 22:12:22,239 - run - INFO - User:anonymous GET /admin/rule_maintain.html - Data:{} - Response:302 FOUND
+2026-03-03 22:12:22,250 - run - INFO - User:anonymous GET /admin/rule_manage.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:12:22,274 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:12:22,910 - run - INFO - User:1 POST /api/admin/rule_query - Data:{'hs_code': '', 'rule_name': ''} - Response:200 OK
+2026-03-03 22:13:05,630 - run - INFO - User:anonymous GET /admin/data_visual.html - Data:{} - Response:200 OK
+2026-03-03 22:13:05,655 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:13:05,656 - run - INFO - User:anonymous GET /static/js/echarts.min.js - Data:{} - Response:200 OK
+2026-03-03 22:13:05,753 - run - INFO - User:1 POST /api/admin/get_visual_data - Data:{} - Response:200 OK
+2026-03-03 22:13:12,096 - run - INFO - User:anonymous GET /admin/rule_manage.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:13:12,119 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:13:12,151 - run - INFO - User:1 POST /api/admin/rule_query - Data:{'hs_code': '', 'rule_name': ''} - Response:200 OK
+2026-03-03 22:15:22,958 - run - INFO - User:1 POST /api/admin/rule_add - Data:{'hs_code': '300290', 'product_description': '其他血液制品', 'rule_name': 'RCEP', 'step_order': 1, 'step_type': 'RVC', 'step_content': None, 'threshold_value': 40, 'exceptions': None} - Response:200 OK
+2026-03-03 22:15:22,980 - run - INFO - User:1 POST /api/admin/rule_query - Data:{'hs_code': '300290', 'rule_name': ''} - Response:200 OK
+2026-03-03 22:16:48,935 - run - INFO - User:1 POST /api/admin/rule_add - Data:{'hs_code': '300290', 'product_description': '其他血液制品', 'rule_name': 'RCEP', 'step_order': 2, 'step_type': 'CTC', 'step_content': 'CTH', 'threshold_value': None, 'exceptions': None} - Response:200 OK
+2026-03-03 22:16:48,951 - run - INFO - User:1 POST /api/admin/rule_query - Data:{'hs_code': '300290', 'rule_name': ''} - Response:200 OK
+2026-03-03 22:16:56,303 - run - INFO - User:anonymous GET /index.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:16:58,607 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'user', 'password': '***', 'remember': False} - Response:200 OK
+2026-03-03 22:16:58,631 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:16:58,655 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:17:01,180 - run - INFO - User:anonymous GET /user/product_manage.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:17:01,203 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:17:01,231 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 10} - Response:200 OK
+2026-03-03 22:17:04,829 - run - INFO - User:anonymous GET /user/origin_judge.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:17:04,851 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:17:04,906 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 1000} - Response:200 OK
+2026-03-03 22:17:07,366 - run - INFO - User:2 POST /api/user/origin_judge - Data:{'product_id': '1', 'rule_name': 'RCEP'} - Response:200 OK
+2026-03-03 22:17:28,217 - run - INFO - User:anonymous GET /user/rvc_calculator.html - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:17:28,238 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:17:28,323 - run - INFO - User:2 POST /api/user/product_list - Data:{} - Response:200 OK
+2026-03-03 22:19:25,280 - run - INFO - User:anonymous GET /user/rvc_calculator.html - Data:{} - Response:200 OK
+2026-03-03 22:19:25,296 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-03-03 22:19:25,334 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 1000} - Response:200 OK
+2026-03-03 22:19:28,073 - run - INFO - User:2 POST /api/user/calculate_rvc - Data:{'product_id': '1', 'rule_name': 'RCEP'} - Response:200 OK
