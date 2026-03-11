@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>产品信息管理 - 用户端</title>
+  <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" />
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" />
+  <style>
+    body {
+      min-height: 100vh;
+      padding-left: 0;
+      transition: padding-left 0.3s ease;
+      margin: 0;
+      color: #1d2129;
+      background-color: #f9fafc;
+      overflow-x: hidden;
+    }
+
+    /* 侧边导航样式 */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 250px;
+      z-index: 100;
+      padding: 60px 0 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      background-color: #ffffff;
+      overflow-y: auto;
+      transform: translateX(-100%);
+      transition: 0.3s ease;
+      border-right: 1px solid #eff2f7;
+    }
+
+    body.sidebar-open .sidebar {
+      transform: translateX(0);
+    }
+
+    body.sidebar-open {
+      padding-left: 250px;
+    }
+
+    .sidebar-sticky {
+      position: relative;
+      top: 0;
+      height: calc(100vh - 60px);
+      padding-top: 1rem;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .sidebar .nav-link {
+      font-weight: 500;
+      color: #4e5969;
+      padding: 0.85rem 1.5rem;
+      margin: 0 0.5rem;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.3s ease;
+      border-left: 3px solid transparent;
+      height: 54px;
+    }
+
+    .sidebar .nav-link i {
+      font-size: 18px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .sidebar .nav-link.active {
+      color: #165dff;
+      background-color: #e8f3ff;
+      border-left: 3px solid #165dff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .sidebar .nav-link:hover {
+      color: #165dff;
+      background-color: #f0f7ff;
+      border-left: 3px solid #4080ff;
+    }
+
+    /* 顶部导航栏 */
+    .navbar {
+      padding: 0.75rem 1.5rem;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 99;
+      background-color: #ffffff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      height: 60px;
+    }
+
+    .navbar-toggler {
+      margin-left: 0;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: 0.3s ease;
+    }
+
+    .navbar-toggler:hover {
+      background-color: #f5f7fa;
+    }
+
+    #sidebarToggle {
+      margin-left: 0;
+      z-index: 101;
+      min-width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .navbar-brand {
+      position: fixed;
+      right: 40px;
+      margin-left: 1rem;
+      color: #165dff !important;
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 0;
+    }
+
+    /* 主内容区域 */
+    .content {
+      padding: 2rem;
+      max-width: 1200px;
+      margin-top: 70px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .content-wrapper {
+      min-height: calc(100vh - 60px);
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .content-text {
+      color: #165dff;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 0.75rem;
+    }
+
+    .content-text::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 60px;
+      height: 3px;
+      background-color: #165dff;
+      border-radius: 3px;
+    }
+
+    /* 表单样式 */
+    .form-label {
+      font-weight: 500;
+      color: #1d2129;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+      border: 1px solid #e5e6eb;
+      padding: 0.75rem 1rem;
+      font-size: 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: #165dff;
+      box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.1);
+    }
+
+    /* 卡片样式 */
+    .card {
+      background-color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .card-header {
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #eff2f7;
+      padding: 1rem 1.5rem;
+      font-weight: 600;
+      color: #1d2129;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    /* 按钮样式 */
+    .btn {
+      padding: 0.75rem 1.5rem;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background-color: #165dff;
+      border-color: #165dff;
+    }
+
+    .btn-primary:hover {
+      background-color: #4080ff;
+      border-color: #4080ff;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-secondary {
+      background-color: #f2f3f5;
+      border-color: #e5e6eb;
+      color: #4e5969;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e5e6eb;
+      border-color: #d0d3d9;
+      color: #1d2129;
+    }
+
+    .btn-outline-primary {
+      color: #165dff;
+      border-color: #165dff;
+    }
+
+    .btn-outline-primary:hover {
+      background-color: #165dff;
+      border-color: #165dff;
+    }
+
+    .btn-outline-danger {
+      color: #f53f3f;
+      border-color: #f53f3f;
+    }
+
+    .btn-outline-danger:hover {
+      background-color: #f53f3f;
+      border-color: #f53f3f;
+    }
+
+    /* 原料表单样式 */
+    .material-form {
+      border: 1px dashed #e5e6eb;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+      background-color: #fafbfc;
+    }
+
+    /* 表格样式 */
+    #productTable {
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    #productTable thead {
+      background-color: #f8f9fa;
+    }
+
+    #productTable th {
+      padding: 1rem 1.5rem;
+      font-weight: 600;
+      color: #4e5969;
+      border-bottom: 1px solid #eff2f7;
+    }
+
+    #productTable td {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #f2f3f5;
+      vertical-align: middle;
+    }
+
+    #productTable tbody tr:hover {
+      background-color: #f8f9ff;
+    }
+
+    #productTable .card-body {
+      padding: 0;
+    }
+
+    #productTable mb-0 {
+      margin-bottom: 0 !important;
+    }
+
+    #refreshProductBtn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    /* 加载动画 */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      visibility: hidden;
+    }
+
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #165dff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* 分页 */
+    .pagination {
+      justify-content: center;
+      margin: 1.5rem 0;
+    }
+
+    .page-item.active .page-link {
+      background-color: #165dff;
+      border-color: #165dff;
+    }
+
+    .page-link {
+      color: #165dff;
+    }
+
+    /* 响应式适配 */
+    @media (max-width: 768px) {
+      .navbar-brand {
+        position: relative;
+        right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 加载动画 -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- 顶部导航 -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" id="sidebarToggle">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <p class="navbar-brand ms-3">原产地判定系统 - 用户端</p>
+    </div>
+  </nav>
+
+  <!-- 侧边导航 -->
+  <div class="sidebar">
+    <div class="sidebar-sticky">
+      <ul class="nav flex-column">
+        <li class="nav-item mb-1">
+          <a class="nav-link" href="policy_query.html">
+            <i class="bi bi-search"></i> 政策查询
+          </a>
+        </li>
+        <li class="nav-item mb-1">
+          <a class="nav-link active" href="product_manage.html">
+            <i class="bi bi-box-seam"></i> 产品信息管理
+          </a>
+        </li>
+        <li class="nav-item mb-1">
+          <a class="nav-link" href="rvc_calculator.html">
+            <i class="bi bi-calculator"></i> RVC计算器
+          </a>
+        </li>
+        <li class="nav-item mb-1">
+          <a class="nav-link" href="origin_judge.html">
+            <i class="bi bi-journal-check"></i> 原产地判定
+          </a>
+        </li>
+        <li class="nav-item mb-1">
+          <a class="nav-link" href="../index.html">
+            <i class="bi bi-house"></i> 返回首页
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 主内容区 -->
+  <div class="content-wrapper">
+    <div class="content">
+      <h2 class="content-text">产品信息管理</h2>
+
+      <!-- 产品表单 -->
+      <div class="card mt-4">
+        <div class="card-header">
+          <h5 class="mb-0">添加/编辑产品</h5>
+        </div>
+        <div class="card-body">
+          <form id="productForm">
+            <input type="hidden" id="productId" value="" />
+            <div class="mb-3">
+              <label class="form-label">产品名称</label>
+              <input type="text" class="form-control" id="productName" placeholder="输入产品名称" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">HS编码</label>
+              <input type="text" class="form-control" id="hsCode" placeholder="如300290或3002.90" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">原产国</label>
+              <input type="text" class="form-control" id="originCountry" placeholder="如中国、越南" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">FOB价格</label>
+              <input type="number" step="0.01" class="form-control" id="fobPrice" placeholder="输入FOB价格" required />
+            </div>
+
+            <!-- 可选信息 -->
+            <div class="card mt-3">
+              <div class="card-header">
+                <h6 class="mb-0">可选信息（非必填）</h6>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">直接人工成本</label>
+                    <input type="number" step="0.01" class="form-control" id="directLaborCost" />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">直接经营成本</label>
+                    <input type="number" step="0.01" class="form-control" id="directOperatingCost" />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">利润</label>
+                    <input type="number" step="0.01" class="form-control" id="profit" />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">其他成本</label>
+                    <input type="number" step="0.01" class="form-control" id="otherCost" />
+                  </div>
+                  <div class="col-md-12 mb-3">
+                    <label class="form-label">特定加工过程</label>
+                    <input type="text" class="form-control" id="specificProcess" placeholder="输入特定加工过程" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 原料信息 -->
+            <div class="card mt-3">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">原料信息</h6>
+                <button type="button" class="btn btn-sm btn-outline-primary" id="addMaterialBtn">添加原料</button>
+              </div>
+              <div class="card-body">
+                <div id="materialList">
+                  <!-- 初始原料表单 -->
+                  <div class="material-form">
+                    <div class="row">
+                      <div class="col-md-3 mb-3">
+                        <label class="form-label">原料名称</label>
+                        <input type="text" class="form-control material-name" placeholder="输入原料名称" required />
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label class="form-label">HS编码</label>
+                        <input type="text" class="form-control material-hscode" placeholder="如300290" required />
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label class="form-label">FOB价值</label>
+                        <input type="number" step="0.01" class="form-control material-fob" placeholder="输入FOB价值" required />
+                      </div>
+                      <div class="col-md-3 mb-3">
+                        <label class="form-label">原产国</label>
+                        <input type="text" class="form-control material-country" placeholder="如中国" required />
+                      </div>
+                      <div class="col-md-12">
+                        <button type="button" class="btn btn-sm btn-outline-danger remove-material-btn">删除</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <button type="submit" class="btn btn-primary">保存产品</button>
+              <button type="button" class="btn btn-secondary ms-2" id="resetBtn">重置</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- 产品列表 -->
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">产品列表</h5>
+          <div>
+            <button type="button" class="btn btn-sm btn-outline-primary" id="refreshProductBtn">
+              <i class="bi bi-arrow-clockwise"></i> 刷新
+            </button>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-striped table-hover mb-0" id="productTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>产品名称</th>
+                <th>HS编码</th>
+                <th>原产国</th>
+                <th>FOB价格</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody">
+              <tr><td colspan="6" class="text-center">加载中...</td></tr>
+            </tbody>
+          </table>
+          <!-- 分页 -->
+          <nav>
+            <ul class="pagination" id="pagination"></ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 脚本 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    // 分页变量
+    let currentPage = 1;
+    const perPage = 10;
+    let totalPages = 1;
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // 侧边栏切换
+      const sidebarToggle = document.getElementById('sidebarToggle');
+      if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', function () {
+          document.body.classList.toggle('sidebar-open');
+        });
+      }
+
+      // 加载产品列表
+      loadProductList();
+
+      // 刷新按钮
+      const refreshBtn = document.getElementById('refreshProductBtn');
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', function () {
+          currentPage = 1;
+          loadProductList();
+        });
+      }
+
+      // 添加原料按钮
+      const addMaterialBtn = document.getElementById('addMaterialBtn');
+      if (addMaterialBtn) {
+        addMaterialBtn.addEventListener('click', function () {
+          addNewMaterialForm();
+        });
+      }
+
+      // 重置按钮
+      const resetBtn = document.getElementById('resetBtn');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', function () {
+          resetProductForm();
+        });
+      }
+
+      // 提交表单
+      const productForm = document.getElementById('productForm');
+      if (productForm) {
+        productForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          saveProduct();
+        });
+      }
+
+      // 绑定删除按钮事件（初始表单）
+      bindRemoveMaterialBtn();
+    });
+
+    // 加载动画
+    function showLoading() {
+      document.getElementById('loadingOverlay').style.visibility = 'visible';
+    }
+    function hideLoading() {
+      document.getElementById('loadingOverlay').style.visibility = 'hidden';
+    }
+
+    // 创建新的原料表单
+    function addNewMaterialForm(data = {}) {
+      const materialList = document.getElementById('materialList');
+      if (!materialList) return;
+
+      const materialHtml = `
+        <div class="material-form">
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <label class="form-label">原料名称</label>
+              <input type="text" class="form-control material-name" value="${data.material_name || ''}" placeholder="输入原料名称" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label">HS编码</label>
+              <input type="text" class="form-control material-hscode" value="${data.hs_code || ''}" placeholder="如300290" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label">FOB价值</label>
+              <input type="number" step="0.01" class="form-control material-fob" value="${data.fob_value || ''}" placeholder="输入FOB价值" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label">原产国</label>
+              <input type="text" class="form-control material-country" value="${data.origin_country || ''}" placeholder="如中国" required>
+            </div>
+            <div class="col-md-12">
+              <button type="button" class="btn btn-sm btn-outline-danger remove-material-btn">删除</button>
+            </div>
+          </div>
+        </div>
+      `;
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = materialHtml;
+      materialList.appendChild(tempDiv.firstElementChild);
+      bindRemoveMaterialBtn();
+    }
+
+    // 绑定删除原料按钮事件
+    function bindRemoveMaterialBtn() {
+      const removeButtons = document.querySelectorAll('.remove-material-btn');
+      removeButtons.forEach((btn) => {
+        btn.removeEventListener('click', handleRemoveMaterial);
+        btn.addEventListener('click', handleRemoveMaterial);
+      });
+    }
+
+    function handleRemoveMaterial() {
+      const materialForms = document.querySelectorAll('.material-form');
+      if (materialForms.length <= 1) {
+        Swal.fire({ icon: 'warning', title: '提示', text: '至少保留一个原料信息' });
+        return;
+      }
+      const materialForm = this.closest('.material-form');
+      if (materialForm) {
+        materialForm.remove();
+      }
+    }
+
+    // 重置产品表单
+    function resetProductForm() {
+      document.getElementById('productId').value = '';
+      document.getElementById('productName').value = '';
+      document.getElementById('hsCode').value = '';
+      document.getElementById('originCountry').value = '';
+      document.getElementById('fobPrice').value = '';
+      document.getElementById('directLaborCost').value = '';
+      document.getElementById('directOperatingCost').value = '';
+      document.getElementById('profit').value = '';
+      document.getElementById('otherCost').value = '';
+      document.getElementById('specificProcess').value = '';
+
+      const materialList = document.getElementById('materialList');
+      materialList.innerHTML = `
+        <div class="material-form">
+          <div class="row">
+            <div class="col-md-3 mb-3">
+              <label class="form-label">原料名称</label>
+              <input type="text" class="form-control material-name" placeholder="输入原料名称" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label">HS编码</label>
+              <input type="text" class="form-control material-hscode" placeholder="如300290" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label">FOB价值</label>
+              <input type="number" step="0.01" class="form-control material-fob" placeholder="输入FOB价值" required>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label class="form-label">原产国</label>
+              <input type="text" class="form-control material-country" placeholder="如中国" required>
+            </div>
+            <div class="col-md-12">
+              <button type="button" class="btn btn-sm btn-outline-danger remove-material-btn">删除</button>
+            </div>
+          </div>
+        </div>
+      `;
+      bindRemoveMaterialBtn();
+    }
+
+    // 加载产品列表（分页）
+    function loadProductList() {
+      showLoading();
+      fetch('/api/user/product_list', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page: currentPage, per_page: perPage })
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('请求失败');
+        return response.json();
+      })
+      .then(res => {
+        hideLoading();
+        if (res.code === 200) {
+          renderTable(res.data.items);
+          totalPages = res.data.pages;
+          renderPagination();
+        } else {
+          Swal.fire({ icon: 'error', title: '加载失败', text: res.msg });
+        }
+      })
+      .catch(error => {
+        hideLoading();
+        console.error('加载产品列表失败:', error);
+        Swal.fire({ icon: 'error', title: '网络错误', text: '请稍后重试' });
+      });
+    }
+
+    // 渲染表格
+    function renderTable(products) {
+      const tbody = document.getElementById('productTableBody');
+      if (!tbody) return;
+      if (!products || products.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center">暂无产品数据</td></tr>';
+        return;
+      }
+      let html = '';
+      products.forEach(p => {
+        html += `
+          <tr>
+            <td>${p.id}</td>
+            <td>${p.product_name}</td>
+            <td>${p.hs_code}</td>
+            <td>${p.origin_country}</td>
+            <td>${p.fob_price}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary edit-product-btn" data-id="${p.id}">编辑</button>
+              <button class="btn btn-sm btn-outline-danger delete-product-btn" data-id="${p.id}">删除</button>
+            </td>
+          </tr>
+        `;
+      });
+      tbody.innerHTML = html;
+
+      // 绑定编辑事件
+      document.querySelectorAll('.edit-product-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const id = this.dataset.id;
+          editProduct(id);
+        });
+      });
+      // 绑定删除事件
+      document.querySelectorAll('.delete-product-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const id = this.dataset.id;
+          deleteProduct(id);
+        });
+      });
+    }
+
+    // 渲染分页
+    function renderPagination() {
+      const pagination = document.getElementById('pagination');
+      let html = '';
+      if (currentPage > 1) {
+        html += `<li class="page-item"><a class="page-link" href="#" data-page="${currentPage-1}">上一页</a></li>`;
+      }
+      for (let i = 1; i <= totalPages; i++) {
+        html += `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
+      }
+      if (currentPage < totalPages) {
+        html += `<li class="page-item"><a class="page-link" href="#" data-page="${currentPage+1}">下一页</a></li>`;
+      }
+      pagination.innerHTML = html;
+      pagination.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          currentPage = parseInt(this.dataset.page);
+          loadProductList();
+        });
+      });
+    }
+
+    // 编辑产品
+    function editProduct(id) {
+      showLoading();
+      fetch(`/api/user/product_detail/${id}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      .then(res => res.json())
+      .then(res => {
+        hideLoading();
+        if (res.code === 200) {
+          fillForm(res.data);
+        } else {
+          Swal.fire({ icon: 'error', title: '获取产品失败', text: res.msg });
+        }
+      })
+      .catch(err => {
+        hideLoading();
+        Swal.fire({ icon: 'error', title: '网络错误', text: err.message });
+      });
+    }
+
+    // 填充表单
+    function fillForm(data) {
+      document.getElementById('productId').value = data.id;
+      document.getElementById('productName').value = data.product_name;
+      document.getElementById('hsCode').value = data.hs_code;
+      document.getElementById('originCountry').value = data.origin_country;
+      document.getElementById('fobPrice').value = data.fob_price;
+      document.getElementById('directLaborCost').value = data.direct_labor_cost || '';
+      document.getElementById('directOperatingCost').value = data.direct_operating_cost || '';
+      document.getElementById('profit').value = data.profit || '';
+      document.getElementById('otherCost').value = data.other_cost || '';
+      document.getElementById('specificProcess').value = data.specific_process || '';
+
+      // 清空原料列表
+      const materialList = document.getElementById('materialList');
+      materialList.innerHTML = '';
+      if (data.materials && data.materials.length > 0) {
+        data.materials.forEach(m => addNewMaterialForm(m));
+      } else {
+        addNewMaterialForm(); // 至少保留一个空表单
+      }
+    }
+
+    // 删除产品
+    function deleteProduct(id) {
+      Swal.fire({
+        title: '确认删除',
+        text: '删除后不可恢复，确定吗？',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: '删除'
+      }).then(result => {
+        if (result.isConfirmed) {
+          showLoading();
+          fetch('/api/user/product_delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ product_id: id })
+          })
+          .then(res => res.json())
+          .then(res => {
+            hideLoading();
+            if (res.code === 200) {
+              Swal.fire({ icon: 'success', title: '删除成功', timer: 1500, showConfirmButton: false });
+              loadProductList();
+            } else {
+              Swal.fire({ icon: 'error', title: '删除失败', text: res.msg });
+            }
+          })
+          .catch(err => {
+            hideLoading();
+            Swal.fire({ icon: 'error', title: '网络错误', text: err.message });
+          });
+        }
+      });
+    }
+
+    // 保存产品
+    function saveProduct() {
+      const productData = {
+        product_name: document.getElementById('productName')?.value.trim() || '',
+        hs_code: document.getElementById('hsCode')?.value.trim() || '',
+        origin_country: document.getElementById('originCountry')?.value.trim() || '',
+        fob_price: parseFloat(document.getElementById('fobPrice')?.value) || 0,
+        direct_labor_cost: document.getElementById('directLaborCost')?.value ? parseFloat(document.getElementById('directLaborCost').value) : null,
+        direct_operating_cost: document.getElementById('directOperatingCost')?.value ? parseFloat(document.getElementById('directOperatingCost').value) : null,
+        profit: document.getElementById('profit')?.value ? parseFloat(document.getElementById('profit').value) : null,
+        other_cost: document.getElementById('otherCost')?.value ? parseFloat(document.getElementById('otherCost').value) : null,
+        specific_process: document.getElementById('specificProcess')?.value.trim() || null,
+        materials: []
+      };
+
+      const materialForms = document.querySelectorAll('.material-form');
+      materialForms.forEach(form => {
+        const material = {
+          material_name: form.querySelector('.material-name')?.value.trim() || '',
+          hs_code: form.querySelector('.material-hscode')?.value.trim() || '',
+          fob_value: parseFloat(form.querySelector('.material-fob')?.value) || 0,
+          origin_country: form.querySelector('.material-country')?.value.trim() || ''
+        };
+        productData.materials.push(material);
+      });
+
+      // 简单验证
+      if (!productData.product_name || !productData.hs_code || !productData.origin_country || productData.fob_price <= 0) {
+        Swal.fire({ icon: 'warning', title: '提示', text: '请填写完整产品信息' });
+        return;
+      }
+      for (let m of productData.materials) {
+        if (!m.material_name || !m.hs_code || m.fob_value <= 0 || !m.origin_country) {
+          Swal.fire({ icon: 'warning', title: '提示', text: '请填写完整原料信息' });
+          return;
+        }
+      }
+
+      showLoading();
+      fetch('/api/user/product_add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(productData)
+      })
+      .then(res => res.json())
+      .then(res => {
+        hideLoading();
+        if (res.code === 200) {
+          Swal.fire({ icon: 'success', title: '保存成功', timer: 1500, showConfirmButton: false });
+          resetProductForm();
+          currentPage = 1; // 返回第一页
+          loadProductList();
+        } else {
+          Swal.fire({ icon: 'error', title: '保存失败', text: res.msg });
+        }
+      })
+      .catch(err => {
+        hideLoading();
+        Swal.fire({ icon: 'error', title: '网络错误', text: err.message });
+      });
+    }
+  </script>
+</body>
+</html>
