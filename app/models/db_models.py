@@ -32,7 +32,8 @@ class Product(db.Model):
     other_cost = db.Column(db.Float, nullable=True, comment="其他成本")
     specific_process = db.Column(db.String(200), nullable=True, comment="特定加工过程")
     materials = db.relationship("Material", backref="product", lazy=True, cascade="all, delete-orphan")
-
+    active_ingredient_total_weight = db.Column(db.Float, nullable=True, comment="活性成分总重量（单位与FOB一致）")
+    active_ingredient_origin_weight = db.Column(db.Float, nullable=True, comment="原产活性成分重量")
 
 class Material(db.Model):
     __tablename__ = "material"

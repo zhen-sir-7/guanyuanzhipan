@@ -471,6 +471,25 @@
               </div>
             </div>
 
+            <!-- ========== 新增：活性成分信息卡片（针对HS3808产品） ========== -->
+            <div class="card mt-3" id="activeIngredientCard" style="display: none;">
+              <div class="card-header">
+                <h6 class="mb-0">活性成分信息（HS编码前四位3808的产品必须填写）</h6>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">活性成分总重量</label>
+                    <input type="number" step="0.01" class="form-control" id="activeTotal" placeholder="如100">
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">原产活性成分重量</label>
+                    <input type="number" step="0.01" class="form-control" id="activeOrigin" placeholder="如60">
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- 原料信息 -->
             <div class="card mt-3">
               <div class="card-header d-flex justify-content-between align-items-center">
@@ -566,6 +585,24 @@
           document.body.classList.toggle('sidebar-open');
         });
       }
+
+      // ========== 监听HS编码变化，控制活性成分卡片显示 ==========
+      const hsCodeInput = document.getElementById('hsCode');
+      const activeCard = document.getElementById('activeIngredientCard');
+      const activeTotal = document.getElementById('activeTotal');
+      const activeOrigin = document.getElementById('activeOrigin');
+
+      hsCodeInput.addEventListener('input', function () {
+        const hsCode = this.value.replace(/[^0-9]/g, ''); // 提取数字
+        if (hsCode.length >= 4 && hsCode.substring(0, 4) === '3808') {
+          activeCard.style.display = 'block';
+        } else {
+          activeCard.style.display = 'none';
+          // 清空已输入的值（可选）
+          activeTotal.value = '';
+          activeOrigin.value = '';
+        }
+      });
 
       // 加载产品列表
       loadProductList();
@@ -685,6 +722,10 @@
       document.getElementById('profit').value = '';
       document.getElementById('otherCost').value = '';
       document.getElementById('specificProcess').value = '';
+      // 重置活性成分
+      document.getElementById('activeTotal').value = '';
+      document.getElementById('activeOrigin').value = '';
+      document.getElementById('activeIngredientCard').style.display = 'none';
 
       const materialList = document.getElementById('materialList');
       materialList.innerHTML = `
@@ -831,7 +872,7 @@
       });
     }
 
-    // 填充表单
+    // 填充表单（编辑时使用）
     function fillForm(data) {
       document.getElementById('productId').value = data.id;
       document.getElementById('productName').value = data.product_name;
@@ -843,6 +884,14 @@
       document.getElementById('profit').value = data.profit || '';
       document.getElementById('otherCost').value = data.other_cost || '';
       document.getElementById('specificProcess').value = data.specific_process || '';
+      // 填充活性成分（如果接口返回了这些字段）
+      document.getElementById('activeTotal').value = data.active_ingredient_total_weight || '';
+      document.getElementById('activeOrigin').value = data.active_ingredient_origin_weight || '';
+
+      // 触发HS编码变化，以显示/隐藏活性成分卡片
+      const hsCodeInput = document.getElementById('hsCode');
+      const event = new Event('input', { bubbles: true });
+      hsCodeInput.dispatchEvent(event);
 
       // 清空原料列表
       const materialList = document.getElementById('materialList');
@@ -902,6 +951,9 @@
         profit: document.getElementById('profit')?.value ? parseFloat(document.getElementById('profit').value) : null,
         other_cost: document.getElementById('otherCost')?.value ? parseFloat(document.getElementById('otherCost').value) : null,
         specific_process: document.getElementById('specificProcess')?.value.trim() || null,
+        // 新增活性成分字段
+        active_ingredient_total_weight: document.getElementById('activeTotal')?.value ? parseFloat(document.getElementById('activeTotal').value) : null,
+        active_ingredient_origin_weight: document.getElementById('activeOrigin')?.value ? parseFloat(document.getElementById('activeOrigin').value) : null,
         materials: []
       };
 
@@ -921,6 +973,19 @@
         Swal.fire({ icon: 'warning', title: '提示', text: '请填写完整产品信息' });
         return;
       }
+      // 如果HS编码前四位是3808，则活性成分必填且须合理
+      const hsDigits = productData.hs_code.replace(/[^0-9]/g, '');
+      if (hsDigits.length >= 4 && hsDigits.substring(0, 4) === '3808') {
+        if (productData.active_ingredient_total_weight === null || productData.active_ingredient_origin_weight === null) {
+          Swal.fire({ icon: 'warning', title: '提示', text: 'HS3808产品必须填写活性成分重量' });
+          return;
+        }
+        if (productData.active_ingredient_origin_weight > productData.active_ingredient_total_weight) {
+          Swal.fire({ icon: 'warning', title: '提示', text: '原产活性成分重量不能超过总重量' });
+          return;
+        }
+      }
+
       for (let m of productData.materials) {
         if (!m.material_name || !m.hs_code || m.fob_value <= 0 || !m.origin_country) {
           Swal.fire({ icon: 'warning', title: '提示', text: '请填写完整原料信息' });

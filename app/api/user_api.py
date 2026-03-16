@@ -13,7 +13,7 @@ from app.api.auth_api import login_required
 from app.utils.error_handler import handle_api_error
 from sqlalchemy.orm import joinedload
 from app.constants import DEFAULT_PAGE, DEFAULT_PER_PAGE
-
+from app.rules.active_50 import judge_active_50
 
 @bp.route('/user/policy_query', methods=['POST'])
 @login_required
@@ -50,6 +50,13 @@ def product_add():
     except ValueError as e:
         return jsonify({"code": 400, "msg": str(e), "data": None})
 
+    if std_hs[:4] == "3808":
+        active_total = data.get('active_ingredient_total_weight')
+        active_origin = data.get('active_ingredient_origin_weight')
+        if active_total is None or active_origin is None:
+            return jsonify({"code": 400, "msg": "HS3808产品必须填写活性成分重量信息", "data": None})
+
+
     product = Product(
         user_id=user_id,
         product_name=product_name,
@@ -60,8 +67,10 @@ def product_add():
         direct_operating_cost=data.get('direct_operating_cost'),
         profit=data.get('profit'),
         other_cost=data.get('other_cost'),
-        specific_process=data.get('specific_process')
-    )
+        specific_process=data.get('specific_process'),
+        active_ingredient_total_weight = data.get('active_ingredient_total_weight'),
+        active_ingredient_origin_weight = data.get('active_ingredient_origin_weight')
+        )
     db.session.add(product)
     db.session.commit()
 
@@ -209,8 +218,11 @@ def origin_judge():
                 final_pass = False
                 suggestions.append(suggestion)
             continue
-        elif step_type == "DM":
-            is_pass, suggestion = judge_dm(product, materials, step_content, exceptions)
+        elif step_type == "CR":
+            is_pass = True
+            suggestion = f"化学反应规则自动满足（{step_content or '无具体要求'}）"
+        elif step_type == "ACTIVE_50":
+            is_pass, suggestion = judge_active_50(product)
         else:
             is_pass = False
             suggestion = f"不支持的步骤类型：{step_type}"
