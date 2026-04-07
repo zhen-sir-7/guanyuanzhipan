@@ -1,269 +1,302 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>用户注册 - 原产地判定系统</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      background:
-        linear-gradient(rgba(25, 118, 210, 0.95), rgba(25, 118, 210, 0.8)),
-        url("https://cdn.pixabay.com/photo/2019/07/29/10/35/hong-kong-4370342_1280.jpg");
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      height: 100vh;
-      font-family: "Microsoft YaHei", Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .register-box {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 420px;
-      backdrop-filter: blur(8px);
-    }
-    .register-title {
-      text-align: center;
-      color: #165dff;
-      font-size: 26px;
-      font-weight: 600;
-      margin-bottom: 30px;
-      letter-spacing: 1px;
-    }
-    .form-group {
-      margin-bottom: 24px;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: #333;
-      font-weight: 500;
-      font-size: 14px;
-    }
-    .form-group input {
-      width: 100%;
-      padding: 14px 16px;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      font-size: 16px;
-      transition: all 0.3s ease;
-    }
-    .form-group input:focus {
-      outline: none;
-      border-color: #165dff;
-      box-shadow: 0 0 0 4px rgba(22, 93, 255, 0.1);
-    }
-    .register-btn {
-      width: 100%;
-      padding: 14px;
-      background-color: #165dff;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 10px;
-    }
-    .register-btn:hover {
-      background-color: #0047cc;
-    }
-    .register-btn:disabled {
-      background-color: #8cb4ff;
-      cursor: not-allowed;
-    }
-    .back-btn {
-      width: 100%;
-      padding: 14px;
-      background-color: #ffffff;
-      color: #165dff;
-      border: 1px solid #165dff;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin-top: 16px;
-    }
-    .back-btn:hover {
-      background-color: #f0f7ff;
-      border-color: #4080ff;
-      color: #4080ff;
-    }
-    .error-msg {
-      color: #ff4d4f;
-      text-align: center;
-      margin-bottom: 20px;
-      padding: 10px;
-      border-radius: 6px;
-      background-color: rgba(255, 77, 79, 0.1);
-      display: none;
-      font-size: 14px;
-    }
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255,255,255,.3);
-      border-radius: 50%;
-      border-top-color: #fff;
-      animation: spin 1s ease-in-out infinite;
-      margin-right: 8px;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .btn-text {
-      display: inline-block;
-    }
-    .password-hint {
-      font-size: 12px;
-      color: #888;
-      margin-top: 4px;
-    }
-    @media (max-width: 768px) {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>原产地判定系统 - 用户注册</title>
+    <link rel="stylesheet" href="../static/css/sweetalert2.min.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background:
+          linear-gradient(rgba(25, 118, 210, 0.95), rgba(25, 118, 210, 0.8)),
+          url("../frontend/static/picture.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        height: 100vh;
+        font-family: "Microsoft YaHei", Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       .register-box {
-        padding: 30px 24px;
-        margin: 0 20px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 420px;
+        backdrop-filter: blur(8px);
       }
       .register-title {
-        font-size: 22px;
+        text-align: center;
+        color: #165dff;
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        letter-spacing: 1px;
       }
-    }
-  </style>
-</head>
-<body>
-  <div class="register-box">
-    <h2 class="register-title">注册新账号</h2>
-    <div class="error-msg" id="errorMsg"></div>
-
-    <div class="form-group">
-      <label for="username">用户名</label>
-      <input type="text" id="username" placeholder="请输入用户名" autocomplete="off">
-    </div>
-
-    <div class="form-group">
-      <label for="password">密码</label>
-      <input type="password" id="password" placeholder="密码至少8位，包含大小写字母和数字" autocomplete="new-password">
-      <div class="password-hint">至少8位，包含大小写字母和数字</div>
-    </div>
-
-    <div class="form-group">
-      <label for="confirmPassword">确认密码</label>
-      <input type="password" id="confirmPassword" placeholder="请再次输入密码" autocomplete="new-password">
-    </div>
-
-    <button class="register-btn" onclick="handleRegister()" id="registerBtn">
-      <span class="btn-text">注册</span>
-    </button>
-
-    <button class="back-btn" onclick="location.href='index.html'">
-      返回登录
-    </button>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
-    let isSubmitting = false;
-
-    function handleRegister() {
-      const usernameInput = document.getElementById('username');
-      const passwordInput = document.getElementById('password');
-      const confirmInput = document.getElementById('confirmPassword');
-      const errorMsg = document.getElementById('errorMsg');
-      const registerBtn = document.getElementById('registerBtn');
-      const btnText = registerBtn.querySelector('.btn-text');
-
-      const username = usernameInput.value.trim();
-      const password = passwordInput.value.trim();
-      const confirmPassword = confirmInput.value.trim();
-
-      if (isSubmitting) return;
-
-      if (!username) {
-        Swal.fire({ icon: 'warning', title: '提示', text: '请输入用户名' });
-        usernameInput.focus();
-        return;
+      .form-group {
+        margin-bottom: 24px;
       }
-      if (!password) {
-        Swal.fire({ icon: 'warning', title: '提示', text: '请输入密码' });
-        passwordInput.focus();
-        return;
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 500;
+        font-size: 14px;
       }
-      if (password.length < 8) {
-        Swal.fire({ icon: 'warning', title: '提示', text: '密码长度至少8位' });
-        passwordInput.focus();
-        return;
+      .form-group input {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
       }
-      if (!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\d/.test(password)) {
-        Swal.fire({ icon: 'warning', title: '提示', text: '密码必须包含大小写字母和数字' });
-        passwordInput.focus();
-        return;
+      .form-group input:focus {
+        outline: none;
+        border-color: #165dff;
+        box-shadow: 0 0 0 4px rgba(22, 93, 255, 0.1);
       }
-      if (password !== confirmPassword) {
-        Swal.fire({ icon: 'warning', title: '提示', text: '两次输入的密码不一致' });
-        confirmInput.focus();
-        return;
+      .register-btn {
+        width: 100%;
+        padding: 14px;
+        background-color: #165dff;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 10px;
       }
-
-      isSubmitting = true;
-      registerBtn.disabled = true;
-      btnText.innerHTML = '<span class="loading"></span>注册中...';
-
-      fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ username, password })
-      })
-      .then(response => {
-        if (!response.ok) throw new Error('网络错误');
-        return response.json();
-      })
-      .then(data => {
-        isSubmitting = false;
-        registerBtn.disabled = false;
-        btnText.textContent = "注册";
-
-        if (data.code === 200) {
-          Swal.fire({
-            icon: 'success',
-            title: '注册成功',
-            text: '2秒后跳转登录页',
-            timer: 2000,
-            showConfirmButton: false
-          });
-          setTimeout(() => window.location.href = 'index.html', 2000);
-        } else {
-          Swal.fire({ icon: 'error', title: '注册失败', text: data.msg });
+      .register-btn:hover {
+        background-color: #0047cc;
+      }
+      .register-btn:disabled {
+        background-color: #8cb4ff;
+        cursor: not-allowed;
+      }
+      .back-btn {
+        width: 100%;
+        padding: 14px;
+        background-color: #ffffff;
+        color: #165dff;
+        border: 1px solid #165dff;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 16px;
+      }
+      .back-btn:hover {
+        background-color: #f0f7ff;
+        border-color: #4080ff;
+        color: #4080ff;
+      }
+      .error-msg {
+        color: #ff4d4f;
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 10px;
+        border-radius: 6px;
+        background-color: rgba(255, 77, 79, 0.1);
+        display: none;
+        font-size: 14px;
+      }
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+        margin-right: 8px;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
         }
-      })
-      .catch(error => {
-        isSubmitting = false;
-        registerBtn.disabled = false;
-        btnText.textContent = "注册";
-        Swal.fire({ icon: 'error', title: '网络错误', text: '请稍后重试' });
-        console.error(error);
+      }
+      .btn-text {
+        display: inline-block;
+      }
+      .password-hint {
+        font-size: 12px;
+        color: #888;
+        margin-top: 4px;
+      }
+      @media (max-width: 768px) {
+        .register-box {
+          padding: 30px 24px;
+          margin: 0 20px;
+        }
+        .register-title {
+          font-size: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="register-box">
+      <h2 class="register-title">注册新账号</h2>
+      <div class="error-msg" id="errorMsg"></div>
+
+      <div class="form-group">
+        <label for="username">用户名</label>
+        <input
+          type="text"
+          id="username"
+          placeholder="请输入用户名"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">密码</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="密码至少8位，包含大小写字母和数字"
+          autocomplete="new-password"
+        />
+        <div class="password-hint">至少8位，包含大小写字母和数字</div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">确认密码</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          placeholder="请再次输入密码"
+          autocomplete="new-password"
+        />
+      </div>
+
+      <button class="register-btn" onclick="handleRegister()" id="registerBtn">
+        <span class="btn-text">注册</span>
+      </button>
+
+      <button class="back-btn" onclick="location.href = 'index.html'">
+        返回登录
+      </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      let isSubmitting = false;
+
+      function handleRegister() {
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.getElementById("password");
+        const confirmInput = document.getElementById("confirmPassword");
+        const errorMsg = document.getElementById("errorMsg");
+        const registerBtn = document.getElementById("registerBtn");
+        const btnText = registerBtn.querySelector(".btn-text");
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+        const confirmPassword = confirmInput.value.trim();
+
+        if (isSubmitting) return;
+
+        if (!username) {
+          Swal.fire({ icon: "warning", title: "提示", text: "请输入用户名" });
+          usernameInput.focus();
+          return;
+        }
+        if (!password) {
+          Swal.fire({ icon: "warning", title: "提示", text: "请输入密码" });
+          passwordInput.focus();
+          return;
+        }
+        if (password.length < 8) {
+          Swal.fire({
+            icon: "warning",
+            title: "提示",
+            text: "密码长度至少8位",
+          });
+          passwordInput.focus();
+          return;
+        }
+        if (
+          !/[A-Z]/.test(password) ||
+          !/[a-z]/.test(password) ||
+          !/\d/.test(password)
+        ) {
+          Swal.fire({
+            icon: "warning",
+            title: "提示",
+            text: "密码必须包含大小写字母和数字",
+          });
+          passwordInput.focus();
+          return;
+        }
+        if (password !== confirmPassword) {
+          Swal.fire({
+            icon: "warning",
+            title: "提示",
+            text: "两次输入的密码不一致",
+          });
+          confirmInput.focus();
+          return;
+        }
+
+        isSubmitting = true;
+        registerBtn.disabled = true;
+        btnText.innerHTML = '<span class="loading"></span>注册中...';
+
+        fetch("/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ username, password }),
+        })
+          .then((response) => {
+            if (!response.ok) throw new Error("网络错误");
+            return response.json();
+          })
+          .then((data) => {
+            isSubmitting = false;
+            registerBtn.disabled = false;
+            btnText.textContent = "注册";
+
+            if (data.code === 200) {
+              Swal.fire({
+                icon: "success",
+                title: "注册成功",
+                text: "2秒后跳转登录页",
+                timer: 2000,
+                showConfirmButton: false,
+              });
+              setTimeout(() => (window.location.href = "index.html"), 2000);
+            } else {
+              Swal.fire({ icon: "error", title: "注册失败", text: data.msg });
+            }
+          })
+          .catch((error) => {
+            isSubmitting = false;
+            registerBtn.disabled = false;
+            btnText.textContent = "注册";
+            Swal.fire({ icon: "error", title: "网络错误", text: "请稍后重试" });
+            console.error(error);
+          });
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !isSubmitting) handleRegister();
       });
-    }
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && !isSubmitting) handleRegister();
-    });
-
-    window.onload = () => document.getElementById('username').focus();
-  </script>
-</body>
+      window.onload = () => document.getElementById("username").focus();
+    </script>
+  </body>
 </html>

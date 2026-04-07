@@ -1,264 +1,287 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>原产地判定系统 - 登录</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      background:
-        linear-gradient(rgba(25, 118, 210, 0.95), rgba(25, 118, 210, 0.8)),
-        url("https://cdn.pixabay.com/photo/2019/07/29/10/35/hong-kong-4370342_1280.jpg");
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      height: 100vh;
-      font-family: "Microsoft YaHei", Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .login-box {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 420px;
-      backdrop-filter: blur(8px);
-    }
-    .login-title {
-      text-align: center;
-      color: #165dff;
-      font-size: 26px;
-      font-weight: 600;
-      margin-bottom: 30px;
-      letter-spacing: 1px;
-    }
-    .form-group {
-      margin-bottom: 24px;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: #333;
-      font-weight: 500;
-      font-size: 14px;
-    }
-    .form-group input {
-      width: 100%;
-      padding: 14px 16px;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      font-size: 16px;
-      transition: all 0.3s ease;
-    }
-    .form-group input:focus {
-      outline: none;
-      border-color: #165dff;
-      box-shadow: 0 0 0 4px rgba(22, 93, 255, 0.1);
-    }
-    .checkbox-group {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .checkbox-group input {
-      width: auto;
-      margin-right: 8px;
-    }
-    .login-btn {
-      width: 100%;
-      padding: 14px;
-      background-color: #165dff;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 10px;
-    }
-    .login-btn:hover {
-      background-color: #0047cc;
-    }
-    .login-btn:disabled {
-      background-color: #8cb4ff;
-      cursor: not-allowed;
-    }
-    .register-btn {
-      width: 100%;
-      padding: 14px;
-      background-color: #ffffff;
-      color: #165dff;
-      border: 1px solid #165dff;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin-top: 16px;
-    }
-    .register-btn:hover {
-      background-color: #f0f7ff;
-      border-color: #4080ff;
-      color: #4080ff;
-    }
-    .error-msg {
-      color: #ff4d4f;
-      text-align: center;
-      margin-bottom: 20px;
-      padding: 10px;
-      border-radius: 6px;
-      background-color: rgba(255, 77, 79, 0.1);
-      display: none;
-      font-size: 14px;
-    }
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255,255,255,.3);
-      border-radius: 50%;
-      border-top-color: #fff;
-      animation: spin 1s ease-in-out infinite;
-      margin-right: 8px;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    .btn-text {
-      display: inline-block;
-    }
-    @media (max-width: 768px) {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>原产地判定系统 - 登录</title>
+    <link rel="stylesheet" href="../static/css/sweetalert2.min.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background:
+          linear-gradient(rgba(25, 118, 210, 0.95), rgba(25, 118, 210, 0.8)),
+          url("../frontend/static/picture.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        height: 100vh;
+        font-family: "Microsoft YaHei", Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       .login-box {
-        padding: 30px 24px;
-        margin: 0 20px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 420px;
+        backdrop-filter: blur(8px);
       }
       .login-title {
-        font-size: 22px;
+        text-align: center;
+        color: #165dff;
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 30px;
+        letter-spacing: 1px;
       }
-    }
-  </style>
-</head>
-<body>
-  <div class="login-box">
-    <h2 class="login-title">原产地判定系统</h2>
-    <div class="error-msg" id="errorMsg"></div>
-
-    <div class="form-group">
-      <label for="username">用户名</label>
-      <input type="text" id="username" placeholder="请输入用户名" autocomplete="username">
-    </div>
-
-    <div class="form-group">
-      <label for="password">密码</label>
-      <input type="password" id="password" placeholder="请输入密码" autocomplete="current-password">
-    </div>
-
-    <div class="checkbox-group">
-      <input type="checkbox" id="remember">
-      <label for="remember">记住我</label>
-    </div>
-
-    <button class="login-btn" onclick="handleLogin()" id="loginBtn">
-      <span class="btn-text">登录</span>
-    </button>
-
-    <button class="register-btn" onclick="location.href='register.html'">
-      注册新账号
-    </button>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script>
-    let isSubmitting = false;
-
-    function handleLogin() {
-      const usernameInput = document.getElementById('username');
-      const passwordInput = document.getElementById('password');
-      const rememberCheck = document.getElementById('remember');
-      const errorMsg = document.getElementById('errorMsg');
-      const loginBtn = document.getElementById('loginBtn');
-      const btnText = loginBtn.querySelector('.btn-text');
-
-      const username = usernameInput.value.trim();
-      const password = passwordInput.value.trim();
-      const remember = rememberCheck.checked;
-
-      if (isSubmitting) return;
-
-      errorMsg.style.display = "none";
-
-      if (!username) {
-        Swal.fire({ icon: 'warning', title: '提示', text: '请输入用户名' });
-        usernameInput.focus();
-        return;
+      .form-group {
+        margin-bottom: 24px;
       }
-      if (!password) {
-        Swal.fire({ icon: 'warning', title: '提示', text: '请输入密码' });
-        passwordInput.focus();
-        return;
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 500;
+        font-size: 14px;
       }
-
-      isSubmitting = true;
-      loginBtn.disabled = true;
-      btnText.innerHTML = '<span class="loading"></span>登录中...';
-
-      fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({ username, password, remember })
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP错误，状态码：${response.status}`);
+      .form-group input {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+      .form-group input:focus {
+        outline: none;
+        border-color: #165dff;
+        box-shadow: 0 0 0 4px rgba(22, 93, 255, 0.1);
+      }
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .checkbox-group input {
+        width: auto;
+        margin-right: 8px;
+      }
+      .login-btn {
+        width: 100%;
+        padding: 14px;
+        background-color: #165dff;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 10px;
+      }
+      .login-btn:hover {
+        background-color: #0047cc;
+      }
+      .login-btn:disabled {
+        background-color: #8cb4ff;
+        cursor: not-allowed;
+      }
+      .register-btn {
+        width: 100%;
+        padding: 14px;
+        background-color: #ffffff;
+        color: #165dff;
+        border: 1px solid #165dff;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 16px;
+      }
+      .register-btn:hover {
+        background-color: #f0f7ff;
+        border-color: #4080ff;
+        color: #4080ff;
+      }
+      .error-msg {
+        color: #ff4d4f;
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 10px;
+        border-radius: 6px;
+        background-color: rgba(255, 77, 79, 0.1);
+        display: none;
+        font-size: 14px;
+      }
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+        margin-right: 8px;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
         }
-        return response.json();
-      })
-      .then(data => {
-        isSubmitting = false;
-        loginBtn.disabled = false;
-        btnText.textContent = "登录";
-
-        if (data.code === 200) {
-          const userInfo = data.data;
-          localStorage.setItem('userInfo', JSON.stringify(userInfo));
-          const targetPath = userInfo.user_type === 'admin' ? '/admin/rule_maintain.html' : '/user/policy_query.html';
-          window.location.href = targetPath;
-        } else {
-          Swal.fire({ icon: 'error', title: '登录失败', text: data.msg || '用户名或密码错误' });
+      }
+      .btn-text {
+        display: inline-block;
+      }
+      @media (max-width: 768px) {
+        .login-box {
+          padding: 30px 24px;
+          margin: 0 20px;
         }
-      })
-      .catch(error => {
-        isSubmitting = false;
-        loginBtn.disabled = false;
-        btnText.textContent = "登录";
-        Swal.fire({ icon: 'error', title: '网络错误', text: '请检查服务器是否运行' });
-        console.error("登录异常：", error);
+        .login-title {
+          font-size: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-box">
+      <h2 class="login-title">原产地判定系统</h2>
+      <div class="error-msg" id="errorMsg"></div>
+
+      <div class="form-group">
+        <label for="username">用户名</label>
+        <input
+          type="text"
+          id="username"
+          placeholder="请输入用户名"
+          autocomplete="username"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">密码</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="请输入密码"
+          autocomplete="current-password"
+        />
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="remember" />
+        <label for="remember">记住我</label>
+      </div>
+
+      <button class="login-btn" onclick="handleLogin()" id="loginBtn">
+        <span class="btn-text">登录</span>
+      </button>
+
+      <button class="register-btn" onclick="location.href = 'register.html'">
+        注册新账号
+      </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      let isSubmitting = false;
+
+      function handleLogin() {
+        const usernameInput = document.getElementById("username");
+        const passwordInput = document.getElementById("password");
+        const rememberCheck = document.getElementById("remember");
+        const errorMsg = document.getElementById("errorMsg");
+        const loginBtn = document.getElementById("loginBtn");
+        const btnText = loginBtn.querySelector(".btn-text");
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+        const remember = rememberCheck.checked;
+
+        if (isSubmitting) return;
+
+        errorMsg.style.display = "none";
+
+        if (!username) {
+          Swal.fire({ icon: "warning", title: "提示", text: "请输入用户名" });
+          usernameInput.focus();
+          return;
+        }
+        if (!password) {
+          Swal.fire({ icon: "warning", title: "提示", text: "请输入密码" });
+          passwordInput.focus();
+          return;
+        }
+
+        isSubmitting = true;
+        loginBtn.disabled = true;
+        btnText.innerHTML = '<span class="loading"></span>登录中...';
+
+        fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ username, password, remember }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP错误，状态码：${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            isSubmitting = false;
+            loginBtn.disabled = false;
+            btnText.textContent = "登录";
+
+            if (data.code === 200) {
+              const userInfo = data.data;
+              localStorage.setItem("userInfo", JSON.stringify(userInfo));
+              const targetPath =
+                userInfo.user_type === "admin"
+                  ? "/admin/rule_maintain.html"
+                  : "/user/policy_query.html";
+              window.location.href = targetPath;
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "登录失败",
+                text: data.msg || "用户名或密码错误",
+              });
+            }
+          })
+          .catch((error) => {
+            isSubmitting = false;
+            loginBtn.disabled = false;
+            btnText.textContent = "登录";
+            Swal.fire({
+              icon: "error",
+              title: "网络错误",
+              text: "请检查服务器是否运行",
+            });
+            console.error("登录异常：", error);
+          });
+      }
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" && !isSubmitting) {
+          handleLogin();
+        }
       });
-    }
 
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && !isSubmitting) {
-        handleLogin();
-      }
-    });
-
-    window.onload = function() {
-      document.getElementById('username').focus();
-    };
-  </script>
-</body>
+      window.onload = function () {
+        document.getElementById("username").focus();
+      };
+    </script>
+  </body>
 </html>

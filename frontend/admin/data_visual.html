@@ -1,365 +1,311 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>使用情况可视化 - 维护端</title>
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../static/css/sweetalert2.min.css" />
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../static/css/nav.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+    />
     <style>
-        body {
-            min-height: 100vh;
-            padding-left: 0;
-            transition: padding-left 0.3s ease;
-            margin: 0;
-            color: #1d2129;
-            background-color: #f9fafc;
-            overflow-x: hidden;
+      body {
+        min-height: 100vh;
+        padding-left: 0;
+        transition: padding-left 0.3s ease;
+        margin: 0;
+        color: #1d2129;
+        background-color: #f9fafc;
+        overflow-x: hidden;
+        padding-left: 250px;
+      }
+
+      .content {
+        padding: 2rem;
+        max-width: 1200px;
+        margin-top: 70px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .content-text {
+        color: #165dff;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.75rem;
+      }
+
+      .content-text::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 60px;
+        height: 3px;
+        background-color: #165dff;
+        border-radius: 3px;
+      }
+
+      .chart {
+        width: 100%;
+        max-width: 800px;
+        height: 400px;
+        margin-top: 10px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        padding: 1rem;
+      }
+
+      .stat-card {
+        text-align: center;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border: 1px solid #eff2f7;
+        border-radius: 10px;
+        background-color: #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: 0.3s ease;
+      }
+
+      .stat-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+      }
+      
+      .stat-card h4 {
+        color: #4e5969;
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+
+      .stat-card .h1 {
+        color: #165dff;
+        font-weight: 600;
+      }
+
+      .btn-primary {
+        background-color: #165dff;
+        border-color: #165dff;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        background-color: #4080ff;
+        border-color: #4080ff;
+        transform: translateY(-1px);
+      }
+
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        visibility: hidden;
+      }
+
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #165dff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            width: 250px;
-            z-index: 100;
-            padding: 60px 0 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            background-color: #ffffff;
-            overflow-y: auto;
-            transform: translateX(-100%);
-            transition: 0.3s ease;
-            border-right: 1px solid #eff2f7;
+        100% {
+          transform: rotate(360deg);
         }
-        body.sidebar-open .sidebar {
-            transform: translateX(0);
-        }
-        body.sidebar-open {
-            padding-left: 250px;
-        }
-        .sidebar-sticky {
-            position: relative;
-            top: 0;
-            height: calc(100vh - 60px);
-            padding-top: 1rem;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-        .sidebar .nav-link {
-            font-weight: 500;
-            color: #4e5969;
-            padding: 0.85rem 1.5rem;
-            margin: 0 0.5rem;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.3s ease;
-            border-left: 3px solid transparent;
-            height: 54px;
-        }
-        .sidebar .nav-link i {
-            font-size: 18px;
-            width: 20px;
-            text-align: center;
-        }
-        .sidebar .nav-link.active {
-            color: #165dff;
-            background-color: #e8f3ff;
-            border-left: 3px solid #165dff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .sidebar .nav-link:hover {
-            color: #165dff;
-            background-color: #f0f7ff;
-            border-left: 3px solid #4080ff;
-        }
-        .navbar {
-            padding: 0.75rem 1.5rem;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 99;
-            background-color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            height: 60px;
-        }
-        .navbar-toggler {
-            margin-left: 0;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 6px;
-        }
-        #sidebarToggle {
-            margin-left: 0;
-            z-index: 101;
-            min-width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      }
+
+      h3.text-left {
+        color: #4e5969;
+        font-weight: 600;
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      /* 响应式适配 */
+      @media (max-width: 768px) {
         .navbar-brand {
-            position: fixed;
-            right: 40px;
-            margin-left: 1rem;
-            color: #165dff !important;
-            font-weight: 600;
-            font-size: 18px;
+          position: relative;
+          right: 0;
         }
-        .content {
-            padding: 2rem;
-            max-width: 1200px;
-            margin-top: 70px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .content-text {
-            color: #165dff;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 0.75rem;
-        }
-        .content-text::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 60px;
-            height: 3px;
-            background-color: #165dff;
-            border-radius: 3px;
-        }
-        .chart {
-            width: 100%;
-            max-width: 800px;
-            height: 400px;
-            margin-top: 10px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            padding: 1rem;
-        }
-        .stat-card {
-            text-align: center;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            border: 1px solid #eff2f7;
-            border-radius: 10px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: 0.3s ease;
-        }
-        .stat-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-            transform: translateY(-2px);
-        }
-        .stat-card h4 {
-            color: #4e5969;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        .stat-card .h1 {
-            color: #165dff;
-            font-weight: 600;
-        }
-        .btn-primary {
-            background-color: #165dff;
-            border-color: #165dff;
-            padding: 0.75rem 1.5rem;
-            font-weight: 500;
-            border-radius: 8px;
-            transition: 0.3s ease;
-        }
-        .btn-primary:hover {
-            background-color: #4080ff;
-            border-color: #4080ff;
-            transform: translateY(-1px);
-        }
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            visibility: hidden;
-        }
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #165dff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        h3.text-left {
-            color: #4e5969;
-            font-weight: 600;
-            margin: 0;
-            font-size: 1.5rem;
-        }
-        @media (max-width: 768px) {
-            .navbar-brand {
-                position: relative;
-                right: 0;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-spinner"></div>
+      <div class="loading-spinner"></div>
     </div>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" id="sidebarToggle">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <p class="navbar-brand ms-3">原产地判定系统 - 维护端</p>
-        </div>
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" id="sidebarToggle">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <p class="navbar-brand ms-3">原产地判定系统 - 维护端</p>
+      </div>
     </nav>
 
     <div class="sidebar">
-        <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-                <li class="nav-item mb-1">
-                    <a class="nav-link" href="rule_manage.html">
-                        <i class="bi bi-gear"></i> 规则管理
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
-                    <a class="nav-link active" href="data_visual.html">
-                        <i class="bi bi-bar-chart"></i> 使用情况可视化
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
-                    <a class="nav-link" href="../index.html">
-                        <i class="bi bi-house"></i> 返回首页
-                    </a>
-                </li>
-            </ul>
-        </div>
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item mb-1">
+            <a class="nav-link" href="rule_manage.html">
+              <i class="bi bi-gear"></i> 规则管理
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link active" href="data_visual.html">
+              <i class="bi bi-bar-chart"></i> 使用情况可视化
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link" href="../index.html">
+              <i class="bi bi-house"></i> 返回首页
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div class="content container-fluid">
-        <h2 class="content-text">使用情况可视化</h2>
+      <h2 class="content-text">使用情况可视化</h2>
 
-        <div class="row">
-            <div class="col-md-4">
-                <div class="stat-card">
-                    <h4>历史使用次数</h4>
-                    <p id="totalJudge" class="h1">0</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="stat-card">
-                    <h4>判定通过率</h4>
-                    <p id="passRate" class="h1">0%</p>
-                </div>
-            </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="stat-card">
+            <h4>历史使用次数</h4>
+            <p id="totalJudge" class="h1">0</p>
+          </div>
         </div>
+        <div class="col-md-4">
+          <div class="stat-card">
+            <h4>判定通过率</h4>
+            <p id="passRate" class="h1">0%</p>
+          </div>
+        </div>
+      </div>
 
-        <div class="d-flex justify-content-between align-items-center mt-5 mb-0">
-            <h3 class="text-left mb-0">HS编码查询分布</h3>
-            <button class="btn btn-primary" onclick="loadVisualData()">
-                <i class="bi bi-arrow-clockwise me-2"></i>刷新数据
-            </button>
-        </div>
-        <div id="errorMsg" class="mt-2 text-danger small" style="display: none"></div>
-        <div id="hsBubbleChart" class="chart"></div>
+      <div class="d-flex justify-content-between align-items-center mt-5 mb-0">
+        <h3 class="text-left mb-0">HS编码查询分布</h3>
+        <button class="btn btn-primary" onclick="loadVisualData()">
+          <i class="bi bi-arrow-clockwise me-2"></i>刷新数据
+        </button>
+      </div>
+      <div
+        id="errorMsg"
+        class="mt-2 text-danger small"
+        style="display: none"
+      ></div>
+      <div id="hsBubbleChart" class="chart"></div>
     </div>
 
     <script src="../static/js/echarts.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const sidebarToggle = document.getElementById("sidebarToggle");
-            if (sidebarToggle) {
-                sidebarToggle.addEventListener("click", function () {
-                    document.body.classList.toggle("sidebar-open");
-                });
-            }
-            loadVisualData();
-        });
+      document.addEventListener("DOMContentLoaded", function () {
+        loadVisualData();
+      });
 
-        function showLoading() {
-            document.getElementById('loadingOverlay').style.visibility = 'visible';
-        }
-        function hideLoading() {
-            document.getElementById('loadingOverlay').style.visibility = 'hidden';
-        }
+      function showLoading() {
+        document.getElementById("loadingOverlay").style.visibility = "visible";
+      }
+      function hideLoading() {
+        document.getElementById("loadingOverlay").style.visibility = "hidden";
+      }
 
-        function loadVisualData() {
-            showLoading();
-            const errorMsgEl = document.getElementById("errorMsg");
-            errorMsgEl.textContent = "";
-            errorMsgEl.style.display = "none";
+      function loadVisualData() {
+        showLoading();
+        const errorMsgEl = document.getElementById("errorMsg");
+        errorMsgEl.textContent = "";
+        errorMsgEl.style.display = "none";
 
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "/api/admin/get_visual_data", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/admin/get_visual_data", true);
+        xhr.setRequestHeader(
+          "Content-Type",
+          "application/x-www-form-urlencoded; charset=UTF-8",
+        );
 
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    hideLoading();
-                    if (xhr.status === 200) {
-                        try {
-                            const res = JSON.parse(xhr.responseText);
-                            if (res.code === 200) {
-                                const data = res.data;
-                                document.getElementById("totalJudge").textContent = data.total_judge;
-                                document.getElementById("passRate").textContent = data.pass_rate + "%";
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            hideLoading();
+            if (xhr.status === 200) {
+              try {
+                const res = JSON.parse(xhr.responseText);
+                if (res.code === 200) {
+                  const data = res.data;
+                  document.getElementById("totalJudge").textContent =
+                    data.total_judge;
+                  document.getElementById("passRate").textContent =
+                    data.pass_rate + "%";
 
-                                const bubbleData = data.hs_bubble_data.map(item => [item.hs_code, item.count, item.hs_name]);
-                                const chartDom = document.getElementById("hsBubbleChart");
-                                const bubbleChart = echarts.init(chartDom);
-                                const option = {
-                                    title: { text: "HS编码查询分布" },
-                                    tooltip: {
-                                        formatter: params => `${params.data[2]}<br/>HS编码：${params.data[0]}<br/>查询次数：${params.data[1]}`
-                                    },
-                                    xAxis: {
-                                        type: "category",
-                                        data: data.hs_bubble_data.map(item => item.hs_code)
-                                    },
-                                    yAxis: { type: "value", name: "查询次数" },
-                                    series: [{
-                                        type: "scatter",
-                                        data: bubbleData,
-                                        symbolSize: val => val[1] * 5,
-                                        label: {
-                                            show: true,
-                                            position: "top",
-                                            formatter: params => params.data[1]
-                                        }
-                                    }]
-                                };
-                                bubbleChart.setOption(option);
-                            } else {
-                                errorMsgEl.textContent = res.msg || "获取数据失败";
-                                errorMsgEl.style.display = "block";
-                            }
-                        } catch (e) {
-                            errorMsgEl.textContent = "数据解析失败：" + e.message;
-                            errorMsgEl.style.display = "block";
-                        }
-                    } else {
-                        errorMsgEl.textContent = "请求失败，状态码：" + xhr.status;
-                        errorMsgEl.style.display = "block";
-                    }
+                  const bubbleData = data.hs_bubble_data.map((item) => [
+                    item.hs_code,
+                    item.count,
+                    item.hs_name,
+                  ]);
+                  const chartDom = document.getElementById("hsBubbleChart");
+                  const bubbleChart = echarts.init(chartDom);
+                  const option = {
+                    title: { text: "HS编码查询分布" },
+                    tooltip: {
+                      formatter: (params) =>
+                        `${params.data[2]}<br/>HS编码：${params.data[0]}<br/>查询次数：${params.data[1]}`,
+                    },
+                    xAxis: {
+                      type: "category",
+                      data: data.hs_bubble_data.map((item) => item.hs_code),
+                    },
+                    yAxis: { type: "value", name: "查询次数" },
+                    series: [
+                      {
+                        type: "scatter",
+                        data: bubbleData,
+                        symbolSize: (val) => val[1] * 5,
+                        label: {
+                          show: true,
+                          position: "top",
+                          formatter: (params) => params.data[1],
+                        },
+                      },
+                    ],
+                  };
+                  bubbleChart.setOption(option);
+                } else {
+                  errorMsgEl.textContent = res.msg || "获取数据失败";
+                  errorMsgEl.style.display = "block";
                 }
-            };
-            xhr.send("");
-        }
+              } catch (err) {
+                errorMsgEl.textContent = "数据解析失败：" + e.message;
+                errorMsgEl.style.display = "block";
+              }
+            } else {
+              errorMsgEl.textContent = "请求失败，状态码：" + xhr.status;
+              errorMsgEl.style.display = "block";
+            }
+          }
+        };
+        xhr.send("");
+      }
     </script>
-</body>
+  </body>
 </html>

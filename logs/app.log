@@ -1,0 +1,154 @@
+2026-04-04 11:20:08,098 - run - INFO - User:anonymous GET / - Data:{} - Response:404 NOT FOUND
+2026-04-04 11:20:08,257 - run - INFO - User:anonymous GET /favicon.ico - Data:{} - Response:404 NOT FOUND
+2026-04-04 11:20:47,123 - run - INFO - User:anonymous GET / - Data:{} - Response:200 OK
+2026-04-04 11:20:47,155 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:200 OK
+2026-04-04 11:20:47,271 - run - INFO - User:anonymous GET /frontend/static/picture.jpg - Data:{} - Response:404 NOT FOUND
+2026-04-04 11:20:47,479 - run - INFO - User:anonymous GET /favicon.ico - Data:{} - Response:404 NOT FOUND
+2026-04-04 11:23:23,472 - run - INFO - User:anonymous GET / - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:23,527 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:23,562 - run - INFO - User:anonymous GET /frontend/static/picture.jpg - Data:{} - Response:404 NOT FOUND
+2026-04-04 11:23:24,447 - run - INFO - User:anonymous GET / - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:24,463 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:24,489 - run - INFO - User:anonymous GET /frontend/static/picture.jpg - Data:{} - Response:404 NOT FOUND
+2026-04-04 11:23:25,771 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'user', 'password': '***', 'remember': False} - Response:200 OK
+2026-04-04 11:23:25,795 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:200 OK
+2026-04-04 11:23:25,816 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:200 OK
+2026-04-04 11:23:25,821 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:200 OK
+2026-04-04 11:23:28,145 - run - INFO - User:anonymous GET /user/product_manage.html - Data:{} - Response:200 OK
+2026-04-04 11:23:28,169 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:28,170 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:28,170 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:28,222 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 10} - Response:200 OK
+2026-04-04 11:23:31,193 - run - INFO - User:anonymous GET /user/rvc_calculator.html - Data:{} - Response:200 OK
+2026-04-04 11:23:31,215 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:31,217 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:31,218 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:31,250 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 1000} - Response:200 OK
+2026-04-04 11:23:32,155 - run - INFO - User:anonymous GET /user/origin_judge.html - Data:{} - Response:200 OK
+2026-04-04 11:23:32,180 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:32,180 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:32,180 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:32,212 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 1000} - Response:200 OK
+2026-04-04 11:23:32,964 - run - INFO - User:anonymous GET /index.html - Data:{} - Response:200 OK
+2026-04-04 11:23:32,984 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:33,023 - run - INFO - User:anonymous GET /frontend/static/picture.jpg - Data:{} - Response:404 NOT FOUND
+2026-04-04 11:23:35,523 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'user', 'password': '***', 'remember': False} - Response:200 OK
+2026-04-04 11:23:35,545 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:35,569 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-04 11:23:35,570 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:11:16,783 - run - INFO - User:anonymous GET / - Data:{} - Response:200 OK
+2026-04-07 07:11:16,812 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:200 OK
+2026-04-07 07:11:16,934 - run - INFO - User:anonymous GET /frontend/static/picture.jpg - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:11:17,521 - run - INFO - User:anonymous GET /favicon.ico - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:11:18,457 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'user', 'password': '***', 'remember': False} - Response:200 OK
+2026-04-07 07:11:18,479 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:200 OK
+2026-04-07 07:11:18,500 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:200 OK
+2026-04-07 07:11:18,506 - run - INFO - User:anonymous GET /static/js/bootstrap.bundle.min.js - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:11:18,507 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:200 OK
+2026-04-07 07:11:18,604 - run - INFO - User:anonymous GET /api/regulations - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:11:24,639 - run - INFO - User:anonymous GET /user/product_manage.html - Data:{} - Response:200 OK
+2026-04-07 07:11:24,664 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:11:24,664 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:11:24,666 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:11:24,706 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 10} - Response:200 OK
+2026-04-07 07:11:25,571 - run - INFO - User:anonymous GET /user/rvc_calculator.html - Data:{} - Response:200 OK
+2026-04-07 07:11:25,594 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:11:25,597 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:11:25,598 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:11:25,645 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 1000} - Response:200 OK
+2026-04-07 07:11:26,327 - run - INFO - User:anonymous GET /user/origin_judge.html - Data:{} - Response:200 OK
+2026-04-07 07:11:26,346 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:11:26,347 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:11:26,347 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:11:26,405 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 1000} - Response:200 OK
+2026-04-07 07:11:27,251 - run - INFO - User:anonymous GET /index.html - Data:{} - Response:200 OK
+2026-04-07 07:11:27,273 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:11:27,294 - run - INFO - User:anonymous GET /frontend/static/picture.jpg - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:25:16,183 - run - INFO - User:anonymous GET / - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:16,398 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:16,535 - run - INFO - User:anonymous GET /frontend/static/picture.jpg - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:25:17,748 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'user', 'password': '***', 'remember': False} - Response:200 OK
+2026-04-07 07:25:17,765 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:17,785 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:17,787 - run - INFO - User:anonymous GET /static/js/bootstrap.bundle.min.js - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:25:17,788 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:17,815 - run - INFO - User:anonymous GET /api/regulations - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:25:49,886 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:49,905 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:49,905 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:49,906 - run - INFO - User:anonymous GET /static/js/bootstrap.bundle.min.js - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:25:49,945 - run - INFO - User:anonymous GET /api/regulations - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:25:50,603 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:50,622 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:50,623 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:50,624 - run - INFO - User:anonymous GET /static/js/bootstrap.bundle.min.js - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:25:50,650 - run - INFO - User:anonymous GET /api/regulations - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:25:51,246 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:51,265 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:51,265 - run - INFO - User:anonymous GET /static/js/bootstrap.bundle.min.js - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:25:51,266 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:51,291 - run - INFO - User:anonymous GET /api/regulations - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:25:51,507 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:51,523 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:51,523 - run - INFO - User:anonymous GET /static/js/bootstrap.bundle.min.js - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:25:51,524 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:51,547 - run - INFO - User:anonymous GET /api/regulations - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:25:51,699 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:51,720 - run - INFO - User:anonymous GET /static/js/bootstrap.bundle.min.js - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:25:51,720 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:51,721 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:25:51,742 - run - INFO - User:anonymous GET /api/regulations - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:32:25,164 - run - INFO - User:anonymous GET / - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:25,190 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:25,306 - run - INFO - User:anonymous GET /frontend/static/picture.jpg - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:32:26,592 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'user', 'password': '***', 'remember': False} - Response:200 OK
+2026-04-07 07:32:26,614 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:26,635 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:26,636 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:26,637 - run - INFO - User:anonymous GET /static/js/bootstrap.bundle.min.js - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:32:26,667 - run - INFO - User:anonymous GET /api/regulations - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:32:28,479 - run - INFO - User:anonymous GET /api/regulations - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:32:31,253 - run - INFO - User:anonymous GET /api/regulations - Data:{} - Response:404 NOT FOUND
+2026-04-07 07:32:34,230 - run - INFO - User:anonymous GET /user/product_manage.html - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:34,251 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:34,252 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:34,252 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:34,294 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 10} - Response:200 OK
+2026-04-07 07:32:35,062 - run - INFO - User:anonymous GET /user/rvc_calculator.html - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:35,085 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:35,085 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:35,086 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:35,120 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 1000} - Response:200 OK
+2026-04-07 07:32:37,213 - run - INFO - User:anonymous GET /user/origin_judge.html - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:37,235 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:37,235 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:37,236 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 07:32:37,274 - run - INFO - User:2 POST /api/user/product_list - Data:{'page': 1, 'per_page': 1000} - Response:200 OK
+2026-04-07 11:55:59,497 - run - INFO - User:anonymous GET / - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 11:55:59,526 - run - INFO - User:anonymous GET /static/css/sweetalert2.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 11:55:59,645 - run - INFO - User:anonymous GET /frontend/static/picture.jpg - Data:{} - Response:404 NOT FOUND
+2026-04-07 11:56:00,896 - run - INFO - User:anonymous POST /api/login - Data:{'username': 'user', 'password': '***', 'remember': False} - Response:200 OK
+2026-04-07 11:56:00,914 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:200 OK
+2026-04-07 11:56:00,936 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 11:56:00,939 - run - INFO - User:anonymous GET /static/js/bootstrap.bundle.min.js - Data:{} - Response:404 NOT FOUND
+2026-04-07 11:56:00,939 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 11:56:00,964 - run - INFO - User:anonymous POST /user/policy_query - Data:{} - Response:404 NOT FOUND
+2026-04-07 11:56:02,986 - run - INFO - User:anonymous POST /user/policy_query - Data:{} - Response:404 NOT FOUND
+2026-04-07 11:57:20,463 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 11:57:20,464 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 11:57:20,478 - run - INFO - User:anonymous GET /.well-known/appspecific/com.chrome.devtools.json - Data:{} - Response:404 NOT FOUND
+2026-04-07 11:57:20,642 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css.map - Data:{} - Response:404 NOT FOUND
+2026-04-07 11:57:23,527 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 11:57:23,548 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 11:57:23,549 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 11:57:23,549 - run - INFO - User:anonymous GET /static/js/bootstrap.bundle.min.js - Data:{} - Response:404 NOT FOUND
+2026-04-07 11:57:23,569 - run - INFO - User:anonymous GET /.well-known/appspecific/com.chrome.devtools.json - Data:{} - Response:404 NOT FOUND
+2026-04-07 11:57:23,683 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css.map - Data:{} - Response:404 NOT FOUND
+2026-04-07 11:57:23,688 - run - INFO - User:anonymous POST /user/policy_query - Data:{} - Response:404 NOT FOUND
+2026-04-07 12:04:11,911 - run - INFO - User:anonymous GET /user/policy_query.html - Data:{} - Response:200 OK
+2026-04-07 12:04:11,931 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 12:04:11,933 - run - INFO - User:anonymous GET /static/css/nav.css - Data:{} - Response:304 NOT MODIFIED
+2026-04-07 12:04:11,934 - run - INFO - User:anonymous GET /static/js/bootstrap.bundle.min.js - Data:{} - Response:404 NOT FOUND
+2026-04-07 12:04:11,941 - run - INFO - User:anonymous GET /.well-known/appspecific/com.chrome.devtools.json - Data:{} - Response:404 NOT FOUND
+2026-04-07 12:04:12,065 - run - INFO - User:anonymous GET /static/css/bootstrap.min.css.map - Data:{} - Response:404 NOT FOUND
+2026-04-07 12:04:12,080 - run - INFO - User:2 POST /api/user/policy_query - Data:{} - Response:200 OK

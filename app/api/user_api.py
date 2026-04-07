@@ -1,6 +1,6 @@
 from flask import request, jsonify, g
 from app.api import bp
-from app.models.db_models import Product, Material, Rule, JudgeResult, db
+from app.models.db_models import Product, Material, Rule, JudgeResult, db,Regulation
 from app.utils.policy_spider import crawl_policy
 from app.rvc_calculator.calculator import rvc_calculator_main
 from app.rules.WO import judge_wo
@@ -19,17 +19,40 @@ from app.constants import DEFAULT_PAGE, DEFAULT_PER_PAGE
 @login_required
 @handle_api_error
 def policy_query():
-    if request.is_json:
-        keyword = request.json.get('keyword', '').strip()
-    else:
-        keyword = request.form.get('keyword', '').strip()
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+    keyword = request.args.get('keyword', '').strip()
 
-    if not keyword:
-        return jsonify({"code": 400, "msg": "关键词不能为空", "data": None})
-
-    policies = crawl_policy(keyword)
-    return jsonify({"code": 200, "msg": "查询成功", "data": policies})
-
+    query = Regulation.query
+    if keyword:
+        # 按标题或内容模糊搜索
+        query = query.filter(
+            db.or_(
+                Regulation.title.like(f'%{keyword}%'),
+                Regulation.content.like(f'%{keyword}%')
+            )
+        )
+    # 按发布日期倒序排列
+    pagination = query.order_by(Regulation.pub_date.desc(), Regulation.id.desc()).paginate(
+        page=page, per_page=per_page, error_out=False
+    )
+    items = []
+    for reg in pagination.items:
+        items.append({
+            'id': reg.id,
+            'title': reg.title,
+            'content': reg.content[:300] if reg.content else '',  # 预览
+            'pub_date': reg.pub_date,
+            'source_url': reg.source_url,
+            'crawl_time': reg.crawl_time.strftime('%Y-%m-%d %H:%M:%S') if reg.crawl_time else ''
+        })
+    return jsonify({
+        'items': items,
+        'total': pagination.total,
+        'page': page,
+        'pages': pagination.pages,
+        'per_page': per_page
+    })
 
 @bp.route('/user/product_add', methods=['POST'])
 @login_required

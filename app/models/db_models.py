@@ -69,3 +69,16 @@ class JudgeResult(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, comment="账号编号", index=True)
     judge_result = db.Column(db.String(20), nullable=False, comment="判定结果（通过/不通过）")
     rule_name = db.Column(db.String(50), nullable=False, comment="使用的贸易规则")
+
+class Regulation(db.Model):
+    __tablename__ = "regulation"
+    id = db.Column(db.Integer, primary_key=True, comment="法规编号")
+    title = db.Column(db.String(200), nullable=False, comment="标题")
+    content = db.Column(db.Text, nullable=True, comment="正文内容")
+    pub_date = db.Column(db.String(50), nullable=True, comment="发布日期")
+    source_url = db.Column(db.String(300), nullable=True, comment="来源URL")
+    crawl_time = db.Column(db.DateTime, default=datetime.now, nullable=False, comment="爬取时间")
+
+    __table_args__ = (
+        db.UniqueConstraint('title', 'pub_date', name='uq_regulation_title_date'),
+    )

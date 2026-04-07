@@ -1,659 +1,729 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>规则管理 - 维护端</title>
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../static/css/sweetalert2.min.css" />
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../static/css/nav.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+    />
     <style>
-        body {
-            min-height: 100vh;
-            padding-left: 0;
-            transition: padding-left 0.3s ease;
-            margin: 0;
-            color: #1d2129;
-            background-color: #f9fafc;
+      body {
+        min-height: 100vh;
+        padding-left: 0;
+        transition: padding-left 0.3s ease;
+        margin: 0;
+        color: #1d2129;
+        background-color: #f9fafc;
+        padding-left: 250px;
+      }
+
+      .content {
+        padding: 2rem;
+        max-width: 1400px;
+        margin-top: 70px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .content-text {
+        color: #165dff;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.75rem;
+      }
+
+      .content-text::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 60px;
+        height: 3px;
+        background-color: #165dff;
+        border-radius: 3px;
+      }
+
+      .search-box {
+        background: #fff;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        margin-bottom: 2rem;
+      }
+
+      .table {
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+      }
+
+      .btn-sm {
+        margin: 0 2px;
+      }
+
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        visibility: hidden;
+      }
+
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #165dff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            width: 250px;
-            z-index: 100;
-            padding: 60px 0 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            background-color: #ffffff;
-            overflow-y: auto;
-            transform: translateX(-100%);
-            transition: 0.3s ease;
-            border-right: 1px solid #eff2f7;
+        100% {
+          transform: rotate(360deg);
         }
-        body.sidebar-open .sidebar {
-            transform: translateX(0);
-        }
-        body.sidebar-open {
-            padding-left: 250px;
-        }
-        .sidebar-sticky {
-            position: relative;
-            top: 0;
-            height: calc(100vh - 60px);
-            padding-top: 1rem;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-        .sidebar .nav-link {
-            font-weight: 500;
-            color: #4e5969;
-            padding: 0.85rem 1.5rem;
-            margin: 0 0.5rem;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.3s ease;
-            border-left: 3px solid transparent;
-            height: 54px;
-        }
-        .sidebar .nav-link i {
-            font-size: 18px;
-            width: 20px;
-            text-align: center;
-        }
-        .sidebar .nav-link.active {
-            color: #165dff;
-            background-color: #e8f3ff;
-            border-left: 3px solid #165dff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .sidebar .nav-link:hover {
-            color: #165dff;
-            background-color: #f0f7ff;
-            border-left: 3px solid #4080ff;
-        }
-        .navbar {
-            padding: 0.75rem 1.5rem;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 99;
-            background-color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            height: 60px;
-        }
-        .navbar-toggler {
-            margin-left: 0;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 6px;
-        }
-        #sidebarToggle {
-            margin-left: 0;
-            z-index: 101;
-            min-width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+      }
+
+      .pagination {
+        justify-content: center;
+        margin-top: 1rem;
+      }
+
+      .upload-area {
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        padding: 40px 20px;
+        text-align: center;
+        margin: 20px 0;
+        cursor: pointer;
+        background-color: #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: 0.3s ease;
+      }
+
+      .upload-area:hover {
+        border-color: #165dff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      }
+
+      .step-type-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+
+      .step-type-CTC {
+        background-color: #e6f7ff;
+        color: #0050b3;
+      }
+
+      .step-type-RVC {
+        background-color: #f6ffed;
+        color: #389e0d;
+      }
+
+      .step-type-WO {
+        background-color: #fff7e6;
+        color: #d46b00;
+      }
+
+      .step-type-DM {
+        background-color: #f9f0ff;
+        color: #531dab;
+      }
+
+      /* 响应式适配 */
+      @media (max-width: 768px) {
         .navbar-brand {
-            position: fixed;
-            right: 40px;
-            margin-left: 1rem;
-            color: #165dff !important;
-            font-weight: 600;
-            font-size: 18px;
+          position: relative;
+          right: 0;
         }
-        .content {
-            padding: 2rem;
-            max-width: 1400px;
-            margin-top: 70px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .content-text {
-            color: #165dff;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            position: relative;
-            padding-bottom: 0.75rem;
-        }
-        .content-text::after {
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 60px;
-            height: 3px;
-            background-color: #165dff;
-            border-radius: 3px;
-        }
-        .search-box {
-            background: #fff;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 2rem;
-        }
-        .table {
-            background: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .table th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-        }
-        .btn-sm {
-            margin: 0 2px;
-        }
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            visibility: hidden;
-        }
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #165dff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .pagination {
-            justify-content: center;
-            margin-top: 1rem;
-        }
-        .upload-area {
-            border: 2px dashed #ccc;
-            border-radius: 10px;
-            padding: 40px 20px;
-            text-align: center;
-            margin: 20px 0;
-            cursor: pointer;
-            background-color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: 0.3s ease;
-        }
-        .upload-area:hover {
-            border-color: #165dff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-        }
-        .step-type-badge {
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-        .step-type-CTC { background-color: #e6f7ff; color: #0050b3; }
-        .step-type-RVC { background-color: #f6ffed; color: #389e0d; }
-        .step-type-WO { background-color: #fff7e6; color: #d46b00; }
-        .step-type-DM { background-color: #f9f0ff; color: #531dab; }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-spinner"></div>
+      <div class="loading-spinner"></div>
     </div>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" id="sidebarToggle">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <p class="navbar-brand">原产地判定系统 - 维护端</p>
-        </div>
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" id="sidebarToggle">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <p class="navbar-brand">原产地判定系统 - 维护端</p>
+      </div>
     </nav>
 
     <div class="sidebar">
-        <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-                <li class="nav-item mb-1">
-                    <a class="nav-link active" href="rule_manage.html">
-                        <i class="bi bi-gear"></i> 规则管理
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
-                    <a class="nav-link" href="data_visual.html">
-                        <i class="bi bi-bar-chart"></i> 使用情况可视化
-                    </a>
-                </li>
-                <li class="nav-item mb-1">
-                    <a class="nav-link" href="../index.html">
-                        <i class="bi bi-house"></i> 返回首页
-                    </a>
-                </li>
-            </ul>
-        </div>
+      <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item mb-1">
+            <a class="nav-link active" href="rule_manage.html">
+              <i class="bi bi-gear"></i> 规则管理
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link" href="data_visual.html">
+              <i class="bi bi-bar-chart"></i> 使用情况可视化
+            </a>
+          </li>
+          <li class="nav-item mb-1">
+            <a class="nav-link" href="../index.html">
+              <i class="bi bi-house"></i> 返回首页
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div class="content">
-        <h2 class="content-text">规则管理</h2>
+      <h2 class="content-text">规则管理</h2>
 
-        <!-- 批量导入卡片 -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5>批量导入规则（Excel）</h5>
-            </div>
-            <div class="card-body">
-                <p class="text-muted">
-                    Excel需包含以下列：hs_code, product_description, rule_name, step_order, step_type, step_content, threshold_value, exceptions<br>
-                    step_type可选值：CTC, RVC, WO, DM；step_content如CTH/CC等
-                </p>
-                <div class="upload-area" id="uploadArea">
-                    <input type="file" id="excelFile" accept=".xlsx,.xls" style="display: none">
-                    <h4>点击上传Excel文件</h4>
-                    <p class="text-muted mt-2">支持.xlsx/.xls格式</p>
-                </div>
-                <div id="uploadResult" class="mt-3"></div>
-            </div>
+      <!-- 批量导入卡片 -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5>批量导入规则（Excel）</h5>
         </div>
-
-        <!-- 搜索与新增 -->
-        <div class="search-box">
-            <div class="row">
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="searchHsCode" placeholder="HS编码">
-                </div>
-                <div class="col-md-4">
-                    <input type="text" class="form-control" id="searchRuleName" placeholder="规则名称">
-                </div>
-                <div class="col-md-4">
-                    <button class="btn btn-primary" id="searchBtn">查询</button>
-                    <button class="btn btn-success ms-2" id="addRuleBtn">新增规则步骤</button>
-                </div>
-            </div>
+        <div class="card-body">
+          <p class="text-muted">
+            Excel需包含以下列：hs_code, product_description, rule_name,
+            step_order, step_type, step_content, threshold_value, exceptions<br />
+            step_type可选值：CTC, RVC, WO, DM；step_content如CTH/CC等
+          </p>
+          <div class="upload-area" id="uploadArea">
+            <input
+              type="file"
+              id="excelFile"
+              accept=".xlsx,.xls"
+              style="display: none"
+            />
+            <h4>点击上传Excel文件</h4>
+            <p class="text-muted mt-2">支持.xlsx/.xls格式</p>
+          </div>
+          <div id="uploadResult" class="mt-3"></div>
         </div>
+      </div>
 
-        <!-- 规则列表 -->
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>HS编码</th>
-                    <th>产品描述</th>
-                    <th>规则名称</th>
-                    <th>步骤顺序</th>
-                    <th>步骤类型</th>
-                    <th>步骤内容</th>
-                    <th>阈值(%)</th>
-                    <th>例外条例</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody id="ruleTableBody">
-                <tr><td colspan="10" class="text-center">加载中...</td></tr>
-            </tbody>
-        </table>
+      <!-- 搜索与新增 -->
+      <div class="search-box">
+        <div class="row">
+          <div class="col-md-4">
+            <input
+              type="text"
+              class="form-control"
+              id="searchHsCode"
+              placeholder="HS编码"
+            />
+          </div>
+          <div class="col-md-4">
+            <input
+              type="text"
+              class="form-control"
+              id="searchRuleName"
+              placeholder="规则名称"
+            />
+          </div>
+          <div class="col-md-4">
+            <button class="btn btn-primary" id="searchBtn">查询</button>
+            <button class="btn btn-success ms-2" id="addRuleBtn">
+              新增规则步骤
+            </button>
+          </div>
+        </div>
+      </div>
 
-        <!-- 分页 -->
-        <nav>
-            <ul class="pagination" id="pagination"></ul>
-        </nav>
+      <!-- 规则列表 -->
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>HS编码</th>
+            <th>产品描述</th>
+            <th>规则名称</th>
+            <th>步骤顺序</th>
+            <th>步骤类型</th>
+            <th>步骤内容</th>
+            <th>阈值(%)</th>
+            <th>例外条例</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="ruleTableBody">
+          <tr>
+            <td colspan="10" class="text-center">加载中...</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- 分页 -->
+      <nav>
+        <ul class="pagination" id="pagination"></ul>
+      </nav>
     </div>
 
     <!-- 规则编辑模态框 -->
     <div class="modal fade" id="ruleModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">新增规则步骤</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="ruleForm">
-                        <input type="hidden" id="ruleId">
-                        <div class="mb-3">
-                            <label class="form-label">HS编码 <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="hsCode" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">产品描述</label>
-                            <input type="text" class="form-control" id="productDescription">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">规则名称 <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="ruleName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">步骤顺序 <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="stepOrder" min="1" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">步骤类型 <span class="text-danger">*</span></label>
-                            <select class="form-select" id="stepType" required>
-                                <option value="">请选择</option>
-                                <option value="CTC">CTC</option>
-                                <option value="RVC">RVC</option>
-                                <option value="WO">WO</option>
-                                <option value="DM">DM</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">步骤内容</label>
-                            <input type="text" class="form-control" id="stepContent" placeholder="如CTH, CC">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">阈值 (%)</label>
-                            <input type="number" step="0.01" class="form-control" id="thresholdValue">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">例外条例</label>
-                            <input type="text" class="form-control" id="exceptions" placeholder="如851712-851718,851720">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" id="saveRuleBtn">保存</button>
-                </div>
-            </div>
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitle">新增规则步骤</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="ruleForm">
+              <input type="hidden" id="ruleId" />
+              <div class="mb-3">
+                <label class="form-label"
+                  >HS编码 <span class="text-danger">*</span></label
+                >
+                <input type="text" class="form-control" id="hsCode" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">产品描述</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="productDescription"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label"
+                  >规则名称 <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="ruleName"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label"
+                  >步骤顺序 <span class="text-danger">*</span></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="stepOrder"
+                  min="1"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label"
+                  >步骤类型 <span class="text-danger">*</span></label
+                >
+                <select class="form-select" id="stepType" required>
+                  <option value="">请选择</option>
+                  <option value="CTC">CTC</option>
+                  <option value="RVC">RVC</option>
+                  <option value="WO">WO</option>
+                  <option value="DM">DM</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">步骤内容</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="stepContent"
+                  placeholder="如CTH, CC"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">阈值 (%)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  class="form-control"
+                  id="thresholdValue"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">例外条例</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exceptions"
+                  placeholder="如851712-851718,851720"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              取消
+            </button>
+            <button type="button" class="btn btn-primary" id="saveRuleBtn">
+              保存
+            </button>
+          </div>
         </div>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        let currentPage = 1;
-        const perPage = 15;
+      let currentPage = 1;
+      const perPage = 15;
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // 侧边栏切换
-            document.getElementById('sidebarToggle').addEventListener('click', function() {
-                document.body.classList.toggle('sidebar-open');
-            });
-
-            // 查询按钮
-            document.getElementById('searchBtn').addEventListener('click', function() {
-                currentPage = 1;
-                loadRules();
-            });
-
-            // 新增规则
-            document.getElementById('addRuleBtn').addEventListener('click', function() {
-                resetModal();
-                document.getElementById('modalTitle').textContent = '新增规则步骤';
-                const modal = new bootstrap.Modal(document.getElementById('ruleModal'));
-                modal.show();
-            });
-
-            // 保存规则
-            document.getElementById('saveRuleBtn').addEventListener('click', saveRule);
-
-            // 批量上传
-            const uploadArea = document.getElementById('uploadArea');
-            const excelFile = document.getElementById('excelFile');
-            uploadArea.addEventListener('click', () => excelFile.click());
-            excelFile.addEventListener('change', handleFileUpload);
-
-            // 初始加载
+      document.addEventListener("DOMContentLoaded", function () {
+        // 查询按钮
+        document
+          .getElementById("searchBtn")
+          .addEventListener("click", function () {
+            currentPage = 1;
             loadRules();
-        });
+          });
 
-        function showLoading() {
-            document.getElementById('loadingOverlay').style.visibility = 'visible';
-        }
-        function hideLoading() {
-            document.getElementById('loadingOverlay').style.visibility = 'hidden';
-        }
+        // 新增规则
+        document
+          .getElementById("addRuleBtn")
+          .addEventListener("click", function () {
+            resetModal();
+            document.getElementById("modalTitle").textContent = "新增规则步骤";
+            const modal = new bootstrap.Modal(
+              document.getElementById("ruleModal"),
+            );
+            modal.show();
+          });
 
-        function loadRules() {
-            const hsCode = document.getElementById('searchHsCode').value.trim();
-            const ruleName = document.getElementById('searchRuleName').value.trim();
-            showLoading();
+        // 保存规则
+        document
+          .getElementById("saveRuleBtn")
+          .addEventListener("click", saveRule);
 
-            fetch('/api/admin/rule_query', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ hs_code: hsCode, rule_name: ruleName })
-            })
-            .then(res => res.json())
-            .then(res => {
-                hideLoading();
-                if (res.code === 200) {
-                    renderTable(res.data);
-                } else {
-                    Swal.fire({ icon: 'error', title: '查询失败', text: res.msg });
-                }
-            })
-            .catch(err => {
-                hideLoading();
-                Swal.fire({ icon: 'error', title: '网络错误', text: err.message });
-            });
-        }
+        // 批量上传
+        const uploadArea = document.getElementById("uploadArea");
+        const excelFile = document.getElementById("excelFile");
+        uploadArea.addEventListener("click", () => excelFile.click());
+        excelFile.addEventListener("change", handleFileUpload);
 
-        function renderTable(rules) {
-            const tbody = document.getElementById('ruleTableBody');
-            if (!rules || rules.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="10" class="text-center">暂无数据</td></tr>';
-                return;
+        // 初始加载
+        loadRules();
+      });
+
+      function showLoading() {
+        document.getElementById("loadingOverlay").style.visibility = "visible";
+      }
+      function hideLoading() {
+        document.getElementById("loadingOverlay").style.visibility = "hidden";
+      }
+
+      function loadRules() {
+        const hsCode = document.getElementById("searchHsCode").value.trim();
+        const ruleName = document.getElementById("searchRuleName").value.trim();
+        showLoading();
+
+        fetch("/api/admin/rule_query", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ hs_code: hsCode, rule_name: ruleName }),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            hideLoading();
+            if (res.code === 200) {
+              renderTable(res.data);
+            } else {
+              Swal.fire({ icon: "error", title: "查询失败", text: res.msg });
             }
-            let html = '';
-            rules.forEach(r => {
-                const stepTypeClass = `step-type-${r.step_type}`;
-                html += `<tr>
+          })
+          .catch((err) => {
+            hideLoading();
+            Swal.fire({ icon: "error", title: "网络错误", text: err.message });
+          });
+      }
+
+      function renderTable(rules) {
+        const tbody = document.getElementById("ruleTableBody");
+        if (!rules || rules.length === 0) {
+          tbody.innerHTML =
+            '<tr><td colspan="10" class="text-center">暂无数据</td></tr>';
+          return;
+        }
+        let html = "";
+        rules.forEach((r) => {
+          const stepTypeClass = `step-type-${r.step_type}`;
+          html += `<tr>
                     <td>${r.id}</td>
                     <td>${r.hs_code}</td>
-                    <td>${r.product_description || ''}</td>
+                    <td>${r.product_description || ""}</td>
                     <td>${r.rule_name}</td>
                     <td>${r.step_order}</td>
                     <td><span class="step-type-badge ${stepTypeClass}">${r.step_type}</span></td>
-                    <td>${r.step_content || ''}</td>
-                    <td>${r.threshold_value || ''}</td>
-                    <td>${r.exceptions || ''}</td>
+                    <td>${r.step_content || ""}</td>
+                    <td>${r.threshold_value || ""}</td>
+                    <td>${r.exceptions || ""}</td>
                     <td>
                         <button class="btn btn-sm btn-outline-primary edit-btn" data-id="${r.id}">编辑</button>
                         <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${r.id}">删除</button>
                     </td>
                 </tr>`;
-            });
-            tbody.innerHTML = html;
+        });
+        tbody.innerHTML = html;
 
-            document.querySelectorAll('.edit-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const id = this.dataset.id;
-                    editRule(id);
-                });
-            });
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const id = this.dataset.id;
-                    deleteRule(id);
-                });
-            });
-        }
+        document.querySelectorAll(".edit-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const id = this.dataset.id;
+            editRule(id);
+          });
+        });
+        document.querySelectorAll(".delete-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const id = this.dataset.id;
+            deleteRule(id);
+          });
+        });
+      }
 
-        function resetModal() {
-            document.getElementById('ruleId').value = '';
-            document.getElementById('hsCode').value = '';
-            document.getElementById('productDescription').value = '';
-            document.getElementById('ruleName').value = '';
-            document.getElementById('stepOrder').value = '';
-            document.getElementById('stepType').value = '';
-            document.getElementById('stepContent').value = '';
-            document.getElementById('thresholdValue').value = '';
-            document.getElementById('exceptions').value = '';
-        }
+      function resetModal() {
+        document.getElementById("ruleId").value = "";
+        document.getElementById("hsCode").value = "";
+        document.getElementById("productDescription").value = "";
+        document.getElementById("ruleName").value = "";
+        document.getElementById("stepOrder").value = "";
+        document.getElementById("stepType").value = "";
+        document.getElementById("stepContent").value = "";
+        document.getElementById("thresholdValue").value = "";
+        document.getElementById("exceptions").value = "";
+      }
 
-        function editRule(id) {
-            showLoading();
-            fetch('/api/admin/rule_query', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ rule_id: id })
-            })
-            .then(res => res.json())
-            .then(res => {
-                hideLoading();
-                if (res.code === 200 && res.data.length > 0) {
-                    const rule = res.data[0];
-                    document.getElementById('ruleId').value = rule.id;
-                    document.getElementById('hsCode').value = rule.hs_code;
-                    document.getElementById('productDescription').value = rule.product_description || '';
-                    document.getElementById('ruleName').value = rule.rule_name;
-                    document.getElementById('stepOrder').value = rule.step_order;
-                    document.getElementById('stepType').value = rule.step_type;
-                    document.getElementById('stepContent').value = rule.step_content || '';
-                    document.getElementById('thresholdValue').value = rule.threshold_value || '';
-                    document.getElementById('exceptions').value = rule.exceptions || '';
+      function editRule(id) {
+        showLoading();
+        fetch("/api/admin/rule_query", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ rule_id: id }),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            hideLoading();
+            if (res.code === 200 && res.data.length > 0) {
+              const rule = res.data[0];
+              document.getElementById("ruleId").value = rule.id;
+              document.getElementById("hsCode").value = rule.hs_code;
+              document.getElementById("productDescription").value =
+                rule.product_description || "";
+              document.getElementById("ruleName").value = rule.rule_name;
+              document.getElementById("stepOrder").value = rule.step_order;
+              document.getElementById("stepType").value = rule.step_type;
+              document.getElementById("stepContent").value =
+                rule.step_content || "";
+              document.getElementById("thresholdValue").value =
+                rule.threshold_value || "";
+              document.getElementById("exceptions").value =
+                rule.exceptions || "";
 
-                    document.getElementById('modalTitle').textContent = '编辑规则步骤';
-                    const modal = new bootstrap.Modal(document.getElementById('ruleModal'));
-                    modal.show();
-                } else {
-                    Swal.fire({ icon: 'error', title: '获取规则失败', text: res.msg });
-                }
-            })
-            .catch(err => {
-                hideLoading();
-                Swal.fire({ icon: 'error', title: '网络错误', text: err.message });
-            });
-        }
-
-        function saveRule() {
-            const ruleId = document.getElementById('ruleId').value;
-            const hsCode = document.getElementById('hsCode').value.trim();
-            const productDescription = document.getElementById('productDescription').value.trim() || null;
-            const ruleName = document.getElementById('ruleName').value.trim();
-            const stepOrder = parseInt(document.getElementById('stepOrder').value);
-            const stepType = document.getElementById('stepType').value;
-            const stepContent = document.getElementById('stepContent').value.trim() || null;
-            const thresholdValue = document.getElementById('thresholdValue').value ? parseFloat(document.getElementById('thresholdValue').value) : null;
-            const exceptions = document.getElementById('exceptions').value.trim() || null;
-
-            if (!hsCode || !ruleName || !stepOrder || !stepType) {
-                Swal.fire({ icon: 'warning', title: '提示', text: '请填写必填项' });
-                return;
+              document.getElementById("modalTitle").textContent =
+                "编辑规则步骤";
+              const modal = new bootstrap.Modal(
+                document.getElementById("ruleModal"),
+              );
+              modal.show();
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "获取规则失败",
+                text: res.msg,
+              });
             }
+          })
+          .catch((err) => {
+            hideLoading();
+            Swal.fire({ icon: "error", title: "网络错误", text: err.message });
+          });
+      }
 
-            const payload = {
-                hs_code: hsCode,
-                product_description: productDescription,
-                rule_name: ruleName,
-                step_order: stepOrder,
-                step_type: stepType,
-                step_content: stepContent,
-                threshold_value: thresholdValue,
-                exceptions: exceptions
-            };
+      function saveRule() {
+        const ruleId = document.getElementById("ruleId").value;
+        const hsCode = document.getElementById("hsCode").value.trim();
+        const productDescription =
+          document.getElementById("productDescription").value.trim() || null;
+        const ruleName = document.getElementById("ruleName").value.trim();
+        const stepOrder = parseInt(document.getElementById("stepOrder").value);
+        const stepType = document.getElementById("stepType").value;
+        const stepContent =
+          document.getElementById("stepContent").value.trim() || null;
+        const thresholdValue = document.getElementById("thresholdValue").value
+          ? parseFloat(document.getElementById("thresholdValue").value)
+          : null;
+        const exceptions =
+          document.getElementById("exceptions").value.trim() || null;
 
-            const url = ruleId ? '/api/admin/rule_update' : '/api/admin/rule_add';
-            if (ruleId) payload.rule_id = ruleId;
+        if (!hsCode || !ruleName || !stepOrder || !stepType) {
+          Swal.fire({ icon: "warning", title: "提示", text: "请填写必填项" });
+          return;
+        }
 
+        const payload = {
+          hs_code: hsCode,
+          product_description: productDescription,
+          rule_name: ruleName,
+          step_order: stepOrder,
+          step_type: stepType,
+          step_content: stepContent,
+          threshold_value: thresholdValue,
+          exceptions: exceptions,
+        };
+
+        const url = ruleId ? "/api/admin/rule_update" : "/api/admin/rule_add";
+        if (ruleId) payload.rule_id = ruleId;
+
+        showLoading();
+        fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            hideLoading();
+            if (res.code === 200) {
+              Swal.fire({
+                icon: "success",
+                title: "保存成功",
+                timer: 1500,
+                showConfirmButton: false,
+              });
+              bootstrap.Modal.getInstance(
+                document.getElementById("ruleModal"),
+              ).hide();
+              loadRules();
+            } else {
+              Swal.fire({ icon: "error", title: "保存失败", text: res.msg });
+            }
+          })
+          .catch((err) => {
+            hideLoading();
+            Swal.fire({ icon: "error", title: "网络错误", text: err.message });
+          });
+      }
+
+      function deleteRule(id) {
+        Swal.fire({
+          title: "确认删除",
+          text: "删除后不可恢复，确定吗？",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "删除",
+        }).then((result) => {
+          if (result.isConfirmed) {
             showLoading();
-            fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+            fetch("/api/admin/rule_delete", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ rule_id: id }),
             })
-            .then(res => res.json())
-            .then(res => {
+              .then((res) => res.json())
+              .then((res) => {
                 hideLoading();
                 if (res.code === 200) {
-                    Swal.fire({ icon: 'success', title: '保存成功', timer: 1500, showConfirmButton: false });
-                    bootstrap.Modal.getInstance(document.getElementById('ruleModal')).hide();
-                    loadRules();
+                  Swal.fire({
+                    icon: "success",
+                    title: "删除成功",
+                    timer: 1500,
+                    showConfirmButton: false,
+                  });
+                  loadRules();
                 } else {
-                    Swal.fire({ icon: 'error', title: '保存失败', text: res.msg });
+                  Swal.fire({
+                    icon: "error",
+                    title: "删除失败",
+                    text: res.msg,
+                  });
                 }
-            })
-            .catch(err => {
+              })
+              .catch((err) => {
                 hideLoading();
-                Swal.fire({ icon: 'error', title: '网络错误', text: err.message });
-            });
+                Swal.fire({
+                  icon: "error",
+                  title: "网络错误",
+                  text: err.message,
+                });
+              });
+          }
+        });
+      }
+
+      function handleFileUpload() {
+        const file = document.getElementById("excelFile").files[0];
+        if (!file) return;
+
+        const ext = file.name.split(".").pop().toLowerCase();
+        if (ext !== "xlsx" && ext !== "xls") {
+          document.getElementById("uploadResult").innerHTML =
+            '<div class="alert alert-danger">请上传Excel文件（.xlsx/.xls）</div>';
+          return;
         }
 
-        function deleteRule(id) {
-            Swal.fire({
-                title: '确认删除',
-                text: '删除后不可恢复，确定吗？',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: '删除'
-            }).then(result => {
-                if (result.isConfirmed) {
-                    showLoading();
-                    fetch('/api/admin/rule_delete', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ rule_id: id })
-                    })
-                    .then(res => res.json())
-                    .then(res => {
-                        hideLoading();
-                        if (res.code === 200) {
-                            Swal.fire({ icon: 'success', title: '删除成功', timer: 1500, showConfirmButton: false });
-                            loadRules();
-                        } else {
-                            Swal.fire({ icon: 'error', title: '删除失败', text: res.msg });
-                        }
-                    })
-                    .catch(err => {
-                        hideLoading();
-                        Swal.fire({ icon: 'error', title: '网络错误', text: err.message });
-                    });
-                }
-            });
-        }
+        const formData = new FormData();
+        formData.append("file", file);
+        document.getElementById("uploadResult").innerHTML =
+          '<div class="alert alert-info">上传中...</div>';
 
-        function handleFileUpload() {
-            const file = document.getElementById('excelFile').files[0];
-            if (!file) return;
-
-            const ext = file.name.split('.').pop().toLowerCase();
-            if (ext !== 'xlsx' && ext !== 'xls') {
-                document.getElementById('uploadResult').innerHTML = '<div class="alert alert-danger">请上传Excel文件（.xlsx/.xls）</div>';
-                return;
+        fetch("/api/admin/rule_import", {
+          method: "POST",
+          body: formData,
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.code === 200) {
+              document.getElementById("uploadResult").innerHTML =
+                `<div class="alert alert-success">${res.msg}</div>`;
+              loadRules();
+            } else {
+              let errorHtml = `<div class="alert alert-danger">${res.msg}</div>`;
+              if (res.data && res.data.errors) {
+                errorHtml += '<ul class="text-danger">';
+                res.data.errors.forEach((e) => (errorHtml += `<li>${e}</li>`));
+                errorHtml += "</ul>";
+              }
+              document.getElementById("uploadResult").innerHTML = errorHtml;
             }
-
-            const formData = new FormData();
-            formData.append('file', file);
-            document.getElementById('uploadResult').innerHTML = '<div class="alert alert-info">上传中...</div>';
-
-            fetch('/api/admin/rule_import', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(res => {
-                if (res.code === 200) {
-                    document.getElementById('uploadResult').innerHTML = `<div class="alert alert-success">${res.msg}</div>`;
-                    loadRules();
-                } else {
-                    let errorHtml = `<div class="alert alert-danger">${res.msg}</div>`;
-                    if (res.data && res.data.errors) {
-                        errorHtml += '<ul class="text-danger">';
-                        res.data.errors.forEach(e => errorHtml += `<li>${e}</li>`);
-                        errorHtml += '</ul>';
-                    }
-                    document.getElementById('uploadResult').innerHTML = errorHtml;
-                }
-                document.getElementById('excelFile').value = '';
-            })
-            .catch(err => {
-                document.getElementById('uploadResult').innerHTML = '<div class="alert alert-danger">上传失败</div>';
-                console.error(err);
-            });
-        }
+            document.getElementById("excelFile").value = "";
+          })
+          .catch((err) => {
+            document.getElementById("uploadResult").innerHTML =
+              '<div class="alert alert-danger">上传失败</div>';
+            console.error(err);
+          });
+      }
     </script>
-</body>
+  </body>
 </html>
